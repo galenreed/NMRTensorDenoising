@@ -1,0 +1,6 @@
+use firefox to print all chapters from a separate tab to file and convert the postscript to PDF using 
+Adobe Distiller (no compression). By setting up the page in Firefox to be landscape, not to include
+background images and to scale everything to 70%, the result is halfway acceptible.
+
+Jacco
+28-02-2007

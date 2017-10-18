@@ -1,0 +1,62 @@
+Known bugs/Ideas for matNMR 3.3 for MATLAB v5.2 and above :
+
+Feature wish list:
+==================
+- Starting processing states spectra is done rather silly now: one first has to go into the
+	2D processing menubar and then select "start states processing". This is not very
+	good I feel.
+
+- The "get position"-routine in the main window (crsshair.m) is able to recognize all lines in
+	the current plot. And when there are multiple lines then it allows switching the crosshair
+	between the lines. However this does not work when the axis vectors are not equal! So lines
+	of unequal length create problems. This could be changed though....
+
+- More file formats could be supported to import into matNMR. Ask around!
+
+- Do we need more export filters?
+
+- dual display currently allows changing of the display mode to real, imaginary, both, absolute
+	and power spectrum. For hypercomplex matrices this doesn't work correctly in case the
+	imaginary part is needed since the checkinputdual routine doesn't read in the hypercomplex
+	parts of the second matrix. Is this worth spending time on?
+
+- Currently the reading of standard parameter files is still quite limited. One easy thing to
+	improve things would be to read in all spectral frequencies into the matNMR structure
+	and allow the user to choose which frequency to couple to which dimension. Would this
+	be used though?
+
+- Making a projection in the 2D/3D viewer window of a spectrum that was plotted as a pcolor surface
+	produces an error. The default pcolor routine reduces the matrix size by 1, hence matNMR
+        avoids that and increases the matrix artificially by 1. The projections routine uses the
+        elongated axis, but the original matrix to generate the projection, hence the error.
+
+- Using the <enter> key doesn't work in input windows. This is true when the pointer is on a uicontrol
+	in the input window. It does work when the pointer is somewhere in the window where there are
+        no uicontrols. This is unfortunately necessary because Matlab doesn't evaluate and update the 
+        string and value of a uicontrol until the pointer is taken off.
+
+- When processing 3D datasets the history is not kept properly. Whenever changing between indices in the
+	third dimension, the history from the FID is reloaded. Only the processing history is stored from the
+        last index to be dealt with.
+
+- dual display of a vertical stack plot in the main window does not take the axis direction into account,
+	meaning half of the time the overlayed spectrum will be in the wrong direction. I need to define
+	how the routine should deal with overlayed spectra and their axes.
+
+
+Weird and/or MATLAB-related errors:
+===================================
+- When printing to EPS using the matprint routine Matlab can freeze. It will use 100% 
+	CPU and not finish the printing. The postscript file is partly finished. It is unclear
+	whether other drivers show the same behaviour. A crash dump file is written upon
+	freezing stating a segmentation violation. I'll ask mathworks about this ...
+	Mathworks claims that this is because I'm using an X-server which is newer than the
+	one they support, which is 6 years old. Great ....
+	NOTE: This only occurs when I work in 24 bit mode while using the "painters" rendering
+	mode for printing. When I switch to 8 bit mode or "zbuffer" the problem doesn't appear.
+
+- The Extract2D.m is used for extracting for parts of a 2D spectrum. After having specified
+	the region of interest with the MATLAB function rbbox, an input window is opened
+	to confirm the selected coordinates (because of rounding errors I ask for a
+	confirmation). For some weird reason MATLAB always throws this input window into
+	the background. HIGHLY ANNOYING.

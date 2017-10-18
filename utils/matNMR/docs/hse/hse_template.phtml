@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<!-- This is a PHP enabled dynamic HTML template file. 
+     Make sure that its extension (.phtml) is handled as PHP by the webserver.
+//-->
+
+<head>
+	<title>HomepageSearchEngine</title>
+	<meta name="robots" content="follow"></meta>
+	<meta name="MSSmartTagsPreventParsing" content="true"></meta>
+	<link rel="stylesheet" type="text/css" href="/hse/HomepageSearchEngine.css" />
+	<link rel="icon" href=" here you can specify an URL to an image that HSE displays on the results page if this file has been found " />
+	<script language="JavaScript" type="text/javascript" src="/hse/hse_customform.js"></script>
+	<script language="JavaScript" type="text/javascript"><!--
+		/* Disable dynamic HTML in Netscape 4 and Opera since they only poorly support it */
+		if (navigator.appName == "Netscape" && navigator.appVersion.substring(0,1) < 5) {
+			document.ids.dhtml.display = "none";
+		}
+		if (navigator.userAgent.indexOf("Opera") != -1) {
+			document.write("<style type=\"text\/css\">#dhtml { display: none; }<\/style>");
+		}
+	//--></script>
+</head>
+
+<body onload="fill_form();">
+
+<div class="HSE-hidden" style="color:red; background-color:yellow">
+Upload the Style Sheet file to its proper location (per default, ist must be accessable at <a href="/hse/HomepageSearchEngine.css" target="_blank"><tt>/hse/HomepageSearchEngine.css</tt></a>)!
+</div>
+
+<div style="text-align:center" class="HSE-bold">HomepageSearchEngine<br />
+Sample PHP Template
+</div>
+
+<div><br />
+This content comes from the fully customizable dynamic HTML template file<br />
+<?php
+	if ($HTTP_SERVER_VARS['PHP_SELF']) { 
+		$scriptname = $HTTP_SERVER_VARS['PHP_SELF'];
+	} else {
+		$scriptname = $PHP_SELF;
+	}
+?>
+<acronym title="This output has been created dynamically" style="border-bottom: 1px dotted; cursor: help;"><a href="<?php echo ($scriptname); ?>" target="_blank"><tt><?php echo ($scriptname); ?></tt></a></acronym>,<br />
+referenced by its URL in section (8.1) of the configuration file (<tt>hse.ini</tt>).<br />
+<br />
+This file has been parsed through PHP version <span style="background:yellowgreen"><acronym title="This output has been created dynamically" style="border-bottom: 1px dotted; cursor: help;"><?php echo phpversion(); ?></acronym></span><br />
+<br />
+Edit this file to meet your design requirements.<br />
+<br />
+</div>
+
+<div style="text-align:center" class="HSE-bold"><br />
+Sample for an own input form including "URL Inspector"<br />
+that preserves the previous form settings<br />
+</div>
+
+<div class="HSE-small"><br />
+The form will be read in from the external <tt>hse_customform.phtml</tt> PHP include file residing in the same directory.<br />
+This makes it comfortable to use it for all your (PHP enabled) pages. The URL of the current page required for URL Inspector will be determined automatically via PHP.<br />
+Make sure that in that file the following values are set properly:<br />
+(1) the path to HomepageSearchEngine.cgi (default: '<tt>/cgi-bin/hse/HomepageSearchEngine.cgi</tt>')<br />
+(2) the 'conf' value (default: '<tt>0</tt>')<br />
+<br />
+The JavaScript code used to preserve the previous form settings will be read in from the external <tt>hse_customform.js</tt> file.<br />
+Make sure that this template file points to it properly, using an absolute URL beginning with <tt>'/'</tt> (default: '<tt>/hse/hse_customform.js</tt>').<br />
+</div>
+
+<div><br />
+<?php include("./hse_customform.phtml"); ?><br />
+</div>
+
+<div>
+----- Here ends the upper part of the HTML template.
+</div>
+
+<!-- Here ends the upper part of the HTML template -->
+<!-- Never remove the next line! -->
+<!-- HSE output here -->
+<!-- Here starts the lower part of the HTML template -->
+
+<div>
+----- Here starts the lower part of the HTML template.
+</div>
+
+<div><br />
+<br />
+This document is made of 100% valid XHTML 1.0!<br />
+<a href="http://validator.w3.org/check/referer" target="_blank"><img src="http://www.w3.org/Icons/valid-xhtml10" border="0" align="middle" alt="Valid XHTML 1.0!" title="Valid XHTML 1.0!" height="31" width="88" /></a> 
+<a href="http://validator.w3.org/check/referer" target="_blank">Click here to validate it at W3C</a><br />
+<br />
+<span style="font-size: smaller;">
+	Last modified on 
+	<acronym title="This output has been created dynamically" style="border-bottom: 1px dotted; cursor: help;"><?php echo date( "m/d/Y", getlastmod() ); ?></acronym><br />
+	<a href="http://www.HomepageSearchEngine.com" target="_blank">HomepageSearchEngine</a>
+	&copy; 1999-2003, <a href="http://www.anet.at" target="_blank">ANET.at</a> 
+	&lt;<a href="mailto:info@anet.at&#64;subject=HomepageSearchEngine">info&#64;anet.at</a>&gt;
+</span>
+</div>
+
+</body>
+</html>

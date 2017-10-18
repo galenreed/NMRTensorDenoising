@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<title>matNMR F.A.Q. page</title>
+</head>
+
+<body text="#000000" bgcolor="#B0B0B0" link="#0040A0" vlink="#0040A0" alink="#FF0040" background="pics/wall.jpg">
+
+<center><u><font size="+2">matNMR, 2.1 (july 1999) and newer : F. A. Q.</font></u></center>
+
+<dl>
+
+
+<dt><br><br>
+<font color="#4000A0">Does matNMR run on my platform ?</font></dt>
+
+<dd>
+If MATLAB runs on your platform then YES IT DOES! If you still have problems, please send me an
+e-mail.</dd>
+
+
+<dt><br><br>
+<font color="#4000A0">How do I install the software ?</font></dt>
+
+<dd>
+Installation instructions are in the reference documentation, chapter 2.</dd>
+
+
+<dt><br><br>
+<font color="#4000A0">I'm running MATLAB 6 on Windows XP and I can't get matNMR to work ?</font></dt>
+
+<dd>
+You may want to read about the problems of running MATLAB 6.1 (R12.1) under Windows XP. 
+These are described <a href="http://www.mathworks.com/support/solutions/data/29388.shtml">here</a>.</dd>
+
+
+<dt><br><br>
+<font color="#4000A0">Many windows that open have zero vertical size and I can't use them. Why is that?</font></dt>
+
+<dd>
+This is a Matlab bug. This has been observed at least in one case for Matlab 5.3 running on Windows XP.
+A patch has been made for this problem in version 3.1.67.</dd>
+
+
+<dt><br><br>
+<font color="#4000A0">Why doesn't matNMR start up properly under MS Windows when I have the splash window turned on (NOTE: this
+is the default setting of matNMR after downloading!) ?</font></dt>
+
+<dd>
+For some reason the splash window that is created when starting up matNMR is not
+closed properly closed, which causes all buttons to be created in the same splash window
+and not in the real matNMR window.<br>Solution: copy the matnmroptions.mat file from
+the directory in which the matNMR code is put into your private matlab directory. Then
+start up matlab, load the matnmroptions.mat file and set the QShowLogo variable to 0 
+by saying "QShowLogo = 0" from the MATLAB prompt. Then save the matnmroptions.mat to disk.
+<br>NOTE: This bug has been solved in version 2.5 (1 february 2000)!<br><br></dd>
+
+
+<dt>
+<font color="#4000A0">Does matNMR really need long file names ?</font></dt>
+<dd>
+No, it could also work with short names but then you have to change all long names
+in the entire code.</dd>
+
+<dt><br><br>
+<font color="#4000A0">Why doesn't matNMR run under older versions of MATLAB ?</font></dt>
+<dd>MATLAB has changed quite dramatically going from version 4.2 to 5.0 which made some
+rather big changes to the code necessary. Therefore support is only given for the newest
+versions of MATLAB. The current support level (matNMR 3.0) is for version 5.2 and higher.</dd>
+
+<dt><br><br>
+<font color="#4000A0">I have just installed matNMR and when trying to start it I get a strange 
+error message that it cannot find some files?</font></dt>
+<dd>Matlab doesn't seem to like empty spaces in directory or disk names. Especially when
+working under Macintosh environments this may be very relevant. Change the name of the
+disk or directory and try again!<br>
+NOTE: This bug has been fixed in matNMR 2.7, release november 12 2002!</dd>
+
+<dt><br><br>
+<font color="#4000A0">Some of the fonts are not recognized by my computer</font></dt>
+<dd>The fonts currently available from the menus are some default fonts found under
+Solaris (so basically what is installed on my computer). It should however be relatively
+simple to put in your personal font list by editing the code. Just look into askedittext.m, 
+askfont.m, QezLegend.m, Qtextdata.m, regeledittext.m and regelfont.m</dd>
+
+<dt><br><br>
+<font color="#4000A0">Isn't there any help available for matNMR ?</font></dt>
+<dd>There is an extremely simple help function in older versions that can be accessed from the menubar in all
+windows. This contains information about installing matNMR, getting started and
+about all functions in all windows.<br>
+Starting from version 2.6 however an online manual is available <img SRC="pics/exclaim.gif" ALT="exclamation"></dd>
+
+<dt><br><br>
+<font color="#4000A0">Does matNMR run under GNU Octave ?</font></dt>
+<dd>Unfortunately the Octave program mainly focusses on calculation and not on graphics.
+This means there are no GUI functions available and as matNMR relies heavily on such
+functions Octave is not suited for matNMR. (Should anyone want to program such GUI
+functions, please do so!) That means you'll have to buy an expensive MATLAb license....</dd>
+
+<dt><br><br>
+<font color="#4000A0">How can I see what has been changed in this new version ?</font></dt>
+<dd>Included in the downloadable code is a file called 'BugFixes.txt' that contains all
+changes to the code, however small they are.</dd>
+
+<dt><br><br>
+<font color="#4000A0">What are known problems/bugs when working with matNMR ?</font></dt>
+<dd>Included in the downloadable code is a file called 'KnownBugs.txt' that contains a list
+of things of which I feel they need to be improved.</dd>
+
+<dt><br><br>
+<font color="#4000A0">When starting matNMR Matlab claims it cannot find certain files even though they are there ...</font></dt>
+<dd>Matlab doesn't always update its cache buffers and this causes such problems when installing new code,
+especially in toolbox directories. One should then execute "rehash toolbox" and "rehash path" to update the
+cache buffers.<br>
+</dd>
+
+<dt><br><br>
+<font color="#4000A0">The colour are screwed up for Matlab 7 under Windows XP  ...</font></dt>
+<dd>When using the "Windows XP" display setting the display properties of UIcontrols are changed. One
+should either work in "Windows classic" display mode or use the 
+<a href="http://www.mathworks.com/support/bugreports/details.html?rp=194025">workaround provided by Mathworks</a>:<br>
+Make a file called "java.opts" in the $MATLAB/bin/win32 directory, where $MATLAB is e.g. c:\program files\MATLAB704.
+In the file java.opts you only write "-Dswing.noxp=true". This should fix the problem.
+</dd>
+
+</dl>
+
+<center>
+<p><br><b><a href="intro.html">Introduction</a></b>,&nbsp;
+<b><a href="notes.html">Release
+notes</a></b>,&nbsp; 
+<b><a href="faq.html">FAQ</a></b>,&nbsp;
+<b><a href="manual/index.html" target='_top'>Reference Online</a></b>,&nbsp;
+<b><a href="download.html">Download
+sources</a></b>,</center>
+
+<center><table BORDER=0 >
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP><br></td>
+<td ALIGN=CENTER VALIGN=TOP><b><i><a href="mailto:jabe@users.sourceforge.net">Click here to mail to Jacco van Beek</a></i></b>
+<br><a href="mailto:jabe@users.sourceforge.net" onMouseOver="window.status='Mail to Jacco van Beek';return true"><img SRC="pics/mailto1.gif" ALT="Mail to Jacco van Beek" BORDER=0  align=MIDDLE></a></td>
+</table></center>
+
+<center>
+<img SRC="pics/line1.gif" VSPACE=3 height=4 ALT="line">
+<br><img SRC="pics/line1.gif" VSPACE=1 height=3 ALT="line">
+</center>
+<div align=right>
+<p><i><font size=-1>Last updated on august 9 2007</font></i></div>
+
+<br><br><center><a href="http://sourceforge.net"><img src="http://sourceforge.net/sflogo.php?group_id=79407&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a></center>
+
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+
+</body>
+</html>

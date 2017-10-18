@@ -1,0 +1,61 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+
+<link rel=stylesheet type="text/css" href="Manual.css">
+
+<script>
+<!--
+window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!"
+// -->
+</script>
+</head>
+<body>
+
+<a name="Intro"><h1>
+Welcome!</h1>
+<p>Finally there is a manual for matNMR! I hope you like it and that it is of any use. If not,
+please let me know. Besides reading this manual over the web you can read it from your local disk.
+All matNMR HTML pages are included with the code starting matNMR version 2.6. Just click on the
+"Help desk" entry in the menubar and your browser will be opened with the manual appearing.
+<br><br>
+Jacco van Beek<br>
+October 2000<br>
+<a href="mailto:jabe@nmr.phys.chem.ethz.ch" onMouseOver="window.status='Mail to Jacco van Beek';return true"><img SRC="../pics/mailto1.gif" ALT="Mail to Jacco van Beek" BORDER=0  align=left></a>
+<br><br><br>
+To proceed just click on an item in the frame on the left to read the corresponding subjects or you can also:
+</p>
+
+<p><b>
+NOTE: this doesn't work yet as the google robot hasn't passed me yet. Please have some patience with
+this! (01-11-2000)
+</b></p>
+
+<h2>Search the matNMR manual pages using Google :</h2>
+<p>(Note that this will search the manual pages at http://www.nmr.ethz.ch/matnmr)</p>
+<!-- Search Google -->
+          <center>
+          <FORM method=GET action=http://www.google.com/search>
+          <TABLE cellspacing=0 border=0>
+          <tr valign=top><td>
+          <A HREF=http://www.google.com/search>
+          <IMG SRC=http://www.google.com/logos/Logo_40wht.gif border=0 ALT=Google
+          align=middle></A>
+          </td>
+          <td>
+          <INPUT TYPE=text name=q size=40 maxlength=255 value="">
+          <INPUT type=submit name=sa VALUE="Google Search">
+          <input type=hidden name=domains value="www.nmr.ethz.ch/matnmr/manual"><br><input type=radio
+          name=sitesearch value=""> Search WWW <input type=radio name=sitesearch
+          value="www.nmr.ethz.ch/matnmr/manual" checked> Search www.nmr.ethz.ch/matnmr/manual <br>
+          </td></tr></TABLE>
+          </FORM>
+          </center>
+<!-- Search Google -->
+
+
+<font size=-1>Visitors since 20 october 2000: <img src="/cgi-bin/Count.cgi?ft=1&tr=Y&dd=D&df=matNMR.manual.dat" align="absmiddle"></font>
+
+
+</body>
+</html>

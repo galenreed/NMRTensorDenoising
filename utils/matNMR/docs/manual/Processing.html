@@ -1,0 +1,574 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+	<link rel=stylesheet type="text/css" href="Manual.css">
+
+	<title>matNMR Manual Page: Processing</title>
+
+	<script type="text/javascript">
+	<!--
+	window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!"
+	// -->
+	</script>
+</head>
+
+<body>
+<a name="Intro"></a><h1>
+Chapter 4 - Processing with matNMR</h1>
+
+<a name="HowTo"></a><h2>
+4.1 Processing spectra with matNMR</h2>
+
+<p>Like any other program matNMR requires a certain sequence of events to be followed for properly 
+processing spectra. In general it can be said that everything is done stepwise. Although processing
+macro's can be defined (see paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)
+there are no all-in-one processing steps pre-defined. As an example two typical sets of processing
+actions are shown below, one for a 1D and one for processing a 2D spectrum.
+
+In general for 1D spectra the routine will be something like :<br><br>
+
+<b>
+<ul>
+<li>load 1D
+<li>enter spectral width&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(optional)
+<li>select a proper apodization function
+<li>set size 1D
+<li>choose Fourier Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Optional --> is set by default options)
+<li>FT 1D
+<li>adjust phase
+<li>save spec 1D
+</ul>
+</b>
+
+
+<p>For a 2D this basically looks the same but it needs some steps more. This is
+because certain steps (like phasing and apodizing) assume working on a 1D spectrum and unless 
+matNMR is instructed to work on the whole 2D matrix only the 1D spectrum in the current view
+is affected. (For more information see paragraph 4.2, <a href="Processing.html#1D2DMode">
+"1D, 2D and 3D mode"</a>). Therefore it is important not to forget the "Apodize 2D" and "Set Phase
+2D" commands during processing.<br>
+Typically processing a 2D will look like :<br><br>
+
+<b>
+<ul>
+<li>load 2D
+<li>choose Fourier Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Optional --> is set by default options)
+<li>enter spectral width of TD 2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(optional)
+<li>select a proper apodization function for TD 2
+<li>Apodize 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to apodize the whole 2D matrix !!)
+<li>set size 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Only for TD 2 --> keeping TD 1 small makes the FT and phasing faster !!)
+<li>FT 2D
+<li>adjust phase for the first row
+<li>Set Phase 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to set the phase for the whole 2D spectrum !!)
+<li>get column&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(depends on where the signal is)
+<li>select a proper apodization function for TD 1
+<li>choose Fourier Mode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Optional)
+<li>enter spectral width of TD 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(optional)
+<li>Apodize 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to apodize the whole 2D matrix !!)
+<li>set size 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(Only for TD 1)
+<li>FT 2D
+<li>adjust the phase for TD 1
+<li>Set Phase 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to set the phase for the whole 2D spectrum !!)
+</ul>
+</b>
+
+<br>and if needed:<br>
+
+<b>
+<ul>
+<li>adjust the phase for TD 2<br>
+<li>Set Phase 2D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(to set the phase for the whole 2D spectrum !!)<br>
+<li>Baseline correction<br>
+</ul>
+</b>
+</p>
+
+
+
+<a name="Tutorial"></a><h3>
+4.1.1 Practical Tutorial</h3>
+
+<p>As a practical example is the easiest way to learn about matNMR, there are two datasets included in the matNMR distribution.
+These can be found in a subdirectory called "Examples", in the directory where you have stored matNMR. The datasets
+are solid-NMR spectra generated with Spinsight. They are called "SpinsightExample1" and "SpinsightExample2".</p>
+
+<h4>Loading the data into the Matlab workspace:</h4>
+<p>In this case there are two ways of importing the two datasets into Matlab: <b>separately</b> or as a <b>series</b>. To load them 
+separately go into the "files" menu and select "binary FID". Select the file that contains the FID. For Spinsight data
+this file is always called "data". After selecting this file, an input window comes up. In this window the size of
+the data must be specified, the name of the variable in the Matlab workspace must be defined, and the format of the
+data must be specified. When the standard parameter files are present (i.e. the full dataset and not just the FID) 
+then the sizes will be deduced from those files. The data format is in some cases recognized automatically.
+Finally, when the dataset should not only be stored in the workspace but also loaded into matNMR directly then select the flag.
+</p>
+<p>Since the two datasets are both Spinsight datasets and have a very similar name, they can also be loaded as a series
+of binary FIDs. Select the appropriate entry in the "files" menu. Select the file that contains the FID. In the input
+window you can define as common part of the file name, e.g. "/home/jabe/matlab/matNMR/Examples/SpinsightExample$#$/data"
+and a range "1:2". Here, the "$#$" is used as a code that is substituted once by All elements in the numerical range.
+Otherwise everything else is the same as above. Clicking OK will load both datasets in one go.<p>
+
+<h4>Processing the 1D dataset, SpinsightExample1:</h4>
+<p>From the main window, press button "load 1D" in the 1D menu, or go to the "1D Processing" menu. Use the name
+of the variable in the workspace that contains the data for example 1. Load the data as an FID. To process the
+spectrum use e.g.</p>
+<ul>
+<li>Hamming apodization (phase factor 0).
+<li>Set the size to 2k points. Do a "complex FT", with or without multiplying the first point by 0.5. 
+<li>Use the mouse to apply -2.1 degrees zeroth-order phase correction, or type -2.1 in the appropriate edit button 
+(press <ENTER> or mouse mouse pointer out of window to activate). 
+<li>To perform a baseline correction, go into the "1D Processing" menu and select "standard processing" and "baseline 
+correction". Use "Define peaks" to exclude the area of the signal from the baseline fit. (left-click=define, 
+right-click=stop). A polynomial of order 0, 1, or 2 should be fine in this case. 
+<li>Store the processed spectrum in the workspace by using the "Add to workspace" button. 
+<li>Alternatively, you may only store the processing actions with the FID (for large
+2D spectra often smaller than storing the spectrum. In that case go into the "History / Macro" menu and select
+"Connect to FID". Supply the name that contains the example 1. For fun, reload the dataset, for example using the
+"reload last" button on the right of your screen. Go into the "History / Macro" menu and select "reprocess from
+history". This should reproduce the spectrum.
+</ul>
+
+
+<h4>Processing the 2D dataset, SpinsightExample2:</h4>
+<p>From the main window, press button "load 2D" in the 2D menu, or go to the "2D Processing" menu. Use the name
+of the variable in the workspace that contains the data for example 2. Load the data as an FID. To process the
+spectrum use e.g.</p>
+<ul>
+<li>This is a 2D dataset with STATES in the indirect dimension for phase sensitivity. The format is already as
+matNMR requires it to be. First the dataset in made into a hypercomplex set (2 complex matrices). Use the "Start
+STATES processing" in the "2D Processing" menu.
+<li>Add 40 Hz of Gaussian apodization. Make sure you use the "Apodize 2D" button to apply the apodization to the entire
+dataset!
+<li>Set the size to 1k points in TD2 using the "set sizes" button in the 2D menu.
+<li>Perform the FT in TD2. The FT mode should say STATES.
+<li>Set the phase properly using the buttons. The reference for the first-order phase correction can be defined by
+clicking the "Reference Ph1" button. Use the crosshair to indicate the position. Using a "reference ph1" of 776 (assuming
+1k points in TD2!), phase values of 51 and -227 degrees for the zeroth and first-order corrections should yield
+an in-phase spectrum with 4 lines.
+<li>Check the position of the lines. These are useful for process the indirect dimension. Select the "Zoom" function
+and zoom into the left doublet. The use the "Get position" button to extract the position. Push the left button and
+move the mouse to follow the lines. The "X index" is the number you want to remember. Click on "Done".
+<li>Repeat the previous for the right doublet in the spectrum. The indices should be e.g. 784 and 373.
+<li>Go to column 784 by typing the number in the appropriate edit button in the window
+<li>Because the pulse program did not conform to the default in Spinsight, the spectral width in TD1 could not
+be deduced. This was also shown in the Matlab command window (Please look!), where it says that the dw2 parameter
+could not be found. Hence the spectral width must be supplied manually. Type 25 (kHz) in the edit button next to
+"Spectr. Width (kHz)".
+<li>Use Hamming apodization with phase factor 0. Make sure you use the "Apodize 2D" button to apply the apodization to the entire
+dataset!
+<li>Set the size to 1k points in TD1 using the "set sizes" button in the 2D menu.
+<li>Perform the FT in TD1. The FT mode should say STATES. This should show the same 4 lines as before, but reversed.
+<li>Because the STATES modulation in the pulse program was not of the correct sign, the spectrum in TD1 is reversed,
+compared to TD2. To correct this use the "Flip L/R" in the "2D processing"+"standard processing" menu.
+<li>Now the phase correction can be perfected: select row 784. Set the zero-order phase correction on the most left
+peak. Set the reference for ph1 on this peak. Select row 373. Adjust the first-order phase correction on the most
+right peak in the spectrum. Apply the phase to the entire spectrum ("Set Phase 2D"). Do the same in TD1.
+<li>Select row 784 and go into the "2D Processing" menu, "standard processing", and select "baseline correction".
+use the "define peaks" to exclude the 4 signals fromthe baseline fit and use a first-order polynomial. Do the same 
+for TD1.
+<li>Store the spectrum in the workspace by using the "Add to workspace" button.
+<li>View the spectrum using the 2D/3D viewer: push the appropriate button on the right side of the 2D menu. Make,
+for example, a contour plot by selecting relative contours.
+</ul>
+
+
+<a name="1D2DMode"></a><h2>
+4.2 1D, 2D and 3D mode</h2>
+
+<p>It is important to realize the difference between working on a 1D and on a 2D spectrum. In
+principle what is shown in the view, while processing a 2D spectrum, is a certain row or column 
+from the matrix. The variable QmatNMR.Dim denotes the current dimension in which we are working:
+0=1D spectrum, 1=TD2, 2=TD1. For a certain row the QmatNMR.Dim will be set to 1 (in a true 1D mode 
+QmatNMR.Dim is set to 0). When changing the
+phase or apodizing, the current view is changed directly on the screen. The mode is not changed though and therefore
+QmatNMR.Dim will still be either 1 or 2. However, the change is not imposed to the entire 2D matrix until 
+the corresponding buttons "Set Phase 2D" and "Apodize 2D" are pushed!</p>
+<p>Then there are several functions (Sum TD2, Sum TD1, Diagonal, etc) that operate on a 2D matrix 
+and which have a 1D spectrum as output. In those cases the mode is switched to a true 1D mode 
+(QmatNMR.Dim=0). This is important to realize, e.g. when doing baseline correction: It is often 
+convenient to look at the sum over a certain dimension to see where the intensities are in the 
+spectrum. However then the mode is switched to a 1D mode and the 2D baseline correction routine 
+doesn't know on which dimension to operate then (by default it will assume to be working on TD2
+for this tourine by the way).</p>
+<p>Another way of switching the mode from 2D to 1D is by selecting a 1D function while processing
+a 2D spectrum. For example doing a 1D FFT will switch the current mode to 1D and do a FFT then.
+The 2D spectrum is not affected by this at all. (This can be also useful for checking certain processing
+steps as using 1D functions is usually faster than 2D functions.) To switch back to the 2D mode
+simply select a row or column from the matrix, using the appropriate UI-controls in the main window.</p>
+
+<p>MatNMR does NOT offer full 3D processing capabilities but rather allows for efficient processing 
+of series of similar 2D spectra, especially using processing macros. When working with 3D matrices
+in the main window a new window is openened from which an output variable must be declared. This is done
+in order to conserve memory usage: the 3D matrices are not copied into dedicated matNMR variables 
+but changes to the input variable are stored directly in the output variable. The first dimension of
+the 3D matrix is the index of the spectrum, whilst the second and third dimension stand for TD1 and
+TD2 respectively.</p>
+<p>This feature is particularly useful for processing sets of simulations. Subsequent plotting of
+these sets of spectra is facilitated by the 2D/3D viewer support for 3D matrices. Upon detecting a 3D
+matrix, the 2D/3D viewer will check the number of subplots in the figure window and will try and plot
+the set of 2D spectra into the available subplots. When combining this with plotting macro's, very
+efficient plotting of the data may be achieved. For more information on how to optimize the use of
+plotting macro's, see paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>.
+
+
+<a name="History"></a><h2>
+4.3 Using the processing history</h2>
+
+<p>A relatively unique feature of matNMR is the processing history (only recently other packages
+have started to implement this). MatNMR keeps track of all actions during processing. After processing
+the spectrum is finished the history can be connected to the FID. When reloading the FID then
+into matNMR, the spectrum can be obtained by "Reprocessing from History", found in the "History"
+menu of the menubar in the main window. This has some nice advantages:<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;-No need to write down processing parameters as they are saved on disk<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-No need to save the spectrum to disk (which is usually much bigger than the
+FID<br>
+&nbsp;&nbsp;&nbsp;&nbsp;-Easy and fast reprocessing of the FID afterwards</p>
+
+<p>Connecting a processing history to an FID induces matNMR to convert the matrix in the workspace
+to the matNMR format. For more information about this see paragraph 3.5, <a href="matNMRMATLAB.html#Format">
+"matNMR format for spectra"</a>. All necessary information can easily be accessed using this format.
+The peak list can also be connected to the FID making plotting the only step necessary after
+reprocessing a spectrum.</p>
+
+<p>History macros can also be converted into independent processing scripts on disk. The scripts can be
+applied to any dataset, the name of which is the input parameter of the script. See also Chapter 8, 
+<a href="Offline.html">Script-based processing with matNMR.</a></p>
+
+<p>At any time the processing history can be viewed as text in a separate window. The text is stored
+in the variable QmatNMR.History. At the same time however a numerical matrix is stored in the workspace, 
+called QmatNMR.HistoryMacro, that contains the processing history as a matNMR macro. This is explained in
+more detail in paragraph 4.4 below.</p>
+
+<p>Now in principle can every processing step be reprocessed afterwards. Everything except creating
+a non-linear axis vector! Most axes have linear increments and therefore only the axis offset and
+increments are saved into the processing history macro. Non-linear axes are not stored into it.
+This also means they will not be reproduced when reprocessing. It wouldn't be terribly difficult
+implementing this but it would increase the size of the macro considerably and is
+therefore not implemented currently.</p>
+
+<p>More explanation on how to use the history can be found in paragraph 5.2.6, <a href="MainWindow.html#HistoryMacro">
+"History/Macro"</a>.</p>
+
+
+
+
+<a name="Macros"></a><h2>
+4.4 Using macro's</h2>
+
+<p>MatNMR allows for the definition of macro's from the menubar in the main window. Currently, both processing
+and plotting actions can be stored in a macro. Macro's in matNMR
+are just matrices of numbers encoding for all processing steps. Besides adding general matNMR processing
+routine steps to a macro, user-defined commands may be defined as well. The command string for these commands
+will be translated into numbers and is stored as such in the history macro. After finishing recording
+the macro it can be saved as a normal variable in the workspace (or on disk) for later use. Processing macro's 
+can only be executed in the main window. Plotting macro's can be executed in any of the
+matNMR windows.</p>
+
+<p>Note that plotting actions are not permanent and are usually all removed when matNMR updates a 
+window. In case of the 2D/3D viewer plotting macro's can be defined in multi-plot situations (see next paragraph),
+but such macro's can only be executed in 2D/3D viewer windows with exactly the same subplot configuration!
+When recording a macro in the 2D/3D viewer window then actions that are not intended for all subplots, will only
+be executed for axes which are selected. If an axis is selected then a box is drawn around it to distiguish it
+from normal axes. Multiple axes may be selected by right-clicking an axis. That way one can easily create effective
+plotting macro's.
+</p>
+
+<p>To avoid warning messages by matNMR to say that the subplot configuration is not correct, one may make plotting
+macros which only operate on the current axis. These work in all matNMR windows. Only in the 2D/3D viewer window a
+special step must be taken to create such macros; in all other windows these are made by default. In the 2D/3D
+viewer window one must deselect all axes before executing a processing action. This will results in the action being
+executed on the current axis only!</p>
+
+<p>An important point in using plotting macro's effectively is to plan in advance. Rendering of graphical objects
+is by far the slowest step for anything but simple line plots. Especially in 2D/3D viewer windows with multiple 
+subplots the rendering time can be painfully long. Changing axis parameters in such cases is less than pleasant. 
+But, by planning the plotting macro in advance, the rerendering may be reduced to only once, which can save lots 
+of time. Simply select a particular <a href="2D3DViewer.html#SubPlots">subplot configuration</a> and make all
+changes to all subplots, store the macro and start plotting the spectra.</p>
+
+<p>Finally, there is one more way to execute a macro and that is by calling the function "matNMRRunMacro" from a user-defined
+script. This requires the matNMR GUI to be openened as is explained in more detail in <a href="Offline.html#Intro">
+Chapter 8, Offline processing</a>.</p>
+
+<p>More explanation on how to create and run macro's can be found in 
+paragraph 5.2.6, <a href="MainWindow.html#HistoryMacro">"History/Macro"</a>.</p>
+
+
+
+
+<a name="MultiWindow"></a><h2>
+4.5 Multi-window matNMR</h2>
+
+<p>MatNMR is programmed such that all windows can be left open while working with it. It may not be very
+convenient to look at 100 windows at the same time but matNMR shouldn't crash. For the main window this works quite
+straightforward as there is only one data window and no subplots currently. 
+For the 2D/3D Viewer a note must be made though: as has been mentioned in paragraph
+3.7, (<a href="matNMRMATLAB.html#Memory">"Memory usage"</a>) the memory usage by MATLAB can be quite considerable.
+Therefore only one set of variables will be kept in memory for the 2D/3D Viewer! So even when you have
+several 2D/3D Viewer windows with various numbers of subplots in them, only ONE set of variables is kept
+in memory. This set of variables (spectral matrix, axis vectors, history, peak list, etc) always belongs 
+to the <b>last plotted spectrum</b>.</p>
+
+
+
+
+<a name="ShortKeys"></a><h2>
+4.6 Using short-keys</h2>
+
+<p>From the main window several short-keys have been defined. They can be seen when selecting an
+entry on the menubar and generally look like &lt;CTRL&gt; + key. Unfortunately many easy short keys are
+already reserved by MATLAB so matNMR doesn't use many currently.</p>
+
+
+
+
+<a name="Apodizing"></a><h2>
+4.7 Apodizing FID's</h2>
+
+<p>From the main window several apodization functions can be chosen:<br>
+
+<table border=yes align=center>
+<thead><tr><th>Type</th><th>Gives</th>
+</tr></thead>
+<tbody>
+
+<tr><td>Exponential</td><td>The FID is multiplied with a pure exponential decay leading to pure
+Lorentzian linebroadening. The spectral width must be specified properly for this function else
+the linebroadening will not correspond to the specified increase in Hz.</td></tr>
+
+
+<tr><td>Cos^2</td><td>The FID is multiplied with a quarter period of a squared(cosine) ranging in 
+intensity  from 1 (cos^2(0)) to 0 (cos^2(pi/2)) if the phase factor is set to 0. Any other value 
+for the phase factor will lead to a different shape. Note that this does not give pure Lorentzian 
+or Gaussian linebroadening.</td></tr>
+
+
+<tr><td>Gaussian</td><td>The FID is multiplied with a Gaussian function leading to pure
+Gaussian linebroadening. The spectral width must be specified properly for this function else
+the linebroadening will not correspond to the specified increase in Hz.</td></tr>
+
+
+<tr><td>Hamming</td><td>The FID is multiplied with a Hamming function for optimal S/N.</td></tr>
+
+
+<tr><td>Block + Cos^2</td><td>The FID is multiplied with a function consisting of a block of
+intensity 1 (length of the block must be specified in points) and a Cos^2. Note 
+that this does not give pure Lorentzian or Gaussian linebroadening.</td></tr>
+
+
+<tr><td>Shifting Gauss</td><td>The FID is multiplied with a pure Gaussian function but the maximum
+of the gaussian is shifted for each TD1 increment. The amount of shifting depends on the
+respective spectral widths in both dimensions, the Fourier mode (see also paragraph 4.8, 
+<a href="Processing.html#FourierTransform">"Fourier transform"</a>) and the shearing factor (this
+is defined by the NMR experiment type). Furthermore the position of the echo maximum must in the
+first row be given. The direction of the shift depends on whether it is an echo or an anti-echo
+experiment. This function can only be used for 2D FID's.</td></tr>
+
+
+<tr><td>Exponential (echo)</td><td>Performs an exponential linebroadening on FID's with a
+full echo in it. It is assumed that the "Swap whole echo" function (see also paragraph 5.2.3,
+<a href="MainWindow.html#1DProcessing">"1D processing"</a> or paragraph 5.2.4,
+<a href="MainWindow.html#2DProcessing">"2D processing"</a>) has been performed before
+applying this apodization.</td></tr>
+
+
+<tr><td>Gaussian (echo)</td><td>Performs a Gaussian linebroadening on FID's with a
+full echo in it. It is assumed that the "Swap whole echo" function (see also paragraph 5.2.3,
+<a href="MainWindow.html#1DProcessing">"1D processing"</a> or paragraph 5.2.4,
+<a href="MainWindow.html#2DProcessing">"2D processing"</a>) has been performed before
+applying this apodization.</td></tr>
+
+
+<tr><td>Shifting Gauss (echo)</td><td>Performs a shifting-Gauss linebroadening on FID's with a
+full echo in it. The amount of shifting depends on the
+respective spectral widths in both dimensions, the Fourier mode (see also paragraph 4.8, 
+<a href="Processing.html#FourierTransform">"Fourier transform"</a>) and the shearing factor (this
+is defined by the NMR experiment type). Furthermore the position of the echo maximum must in the
+first row be given. When the echo maximum is set to 0 (after the "swap whole echo") the 
+apodization consists of two converging gaussian functions (in time) instead of diverging (the
+usual idea with echo-spectra). This function can only be used for 2D FID's.</td></tr>
+</tbody>
+</table>
+
+
+
+<a name="FourierTransform"></a><h2>
+4.8 Fourier transform</h2>
+
+<p>Fourier transformation in matNMR is done slice-by-slice using the standard MATLAB FFT 
+routine. In general a FFTshift (see MATLAB documentation for more information) is done
+to end with the common result of all NMR processing programs. 
+<br><br>As in general the first point of most FID's needs to be multiplied by 0.5 (because
+most FID's are apodized to 0) this is automatically selected in the main window. It can
+however be switched off for FID's which do not need this (e.g. an undamped cosine), as
+this would otherwise give a baseline offset.
+
+<br><br>The inverse FT can also be performed, but has to be accessed from the "Additional 
+Features" item in either the "1D Processing" or "2D Processing" menus in the menubar.
+
+<br><br>Various types of Fourier transform 
+modes corresponding to various types of NMR experiments are supported:<br><br>
+
+<table border=yes align=center>
+<thead><tr><th>Type</th><th>Gives</th>
+</tr></thead>
+<tbody>
+
+<tr><td>Complex</td><td>Both the real and the imaginary parts of the FID are used.</td></tr>
+
+<tr><td>Real</td><td>The imaginary parts of the FID are made 0 before doing the FFT.</td></tr>
+
+<tr><td>States</td><td>2D Spectra recorded using the States scheme require this setting
+both in TD2 and TD1. A hypercomplex dataset will result from this.</td></tr>
+
+<tr><td>TPPI</td><td>2D Spectra recorded using the TPPI scheme require this setting ONLY
+for the processing in TD1. In TD2 the complex FFT should be used. To use this setting in
+TD2 usually means that the Redfield scheme (i.e. TPPI in 1D) was used and the data have been
+converted (Bruker qseq mode, see also
+paragraph 5.2.3, <a href="MainWindow.html#1DProcessing">"1D processing"</a> or paragraph 5.2.4,
+<a href="MainWindow.html#2DProcessing">"2D processing"</a>). 
+<br>In 2D FID's hypercomplex dataset will result from this. The spectral width is halved after the
+Fourier transform to account for the fact that half of the data is thrown away.
+<br>Note that for qseq data also the direct processing can be done (so without doing the above-mentioned
+conversion first.</td></tr>
+
+<tr><td>Whole Echo</td><td>2D Spectra with phase modulation instead of amplitude modulation
+(whole echo acquisition) require complex FFT in both dimensions. Using this setting for TD2
+avoids having to define the complex FFT for both dimensions.</td></tr>
+
+<tr><td>States-TPPI</td><td>2D Spectra recorded using the States-TPPI scheme require this setting both
+in TD2 and in TD1. A hypercomplex dataset will result from this.</td></tr>
+
+<tr><td>Bruker qseq</td><td>This setting performs a similar transform as TPPI does except that it
+also inverst every second complex point. When the above-mentioned conversion step has been done
+TPPI must be used and not this mode!</td></tr>
+</tbody>
+
+<tr><td>Sine FT</td><td>This setting performs a real Fourier transform whilst assuming that the
+FID is sine-modulated. A sine function will produce an anti-phase spectrum around the carrier. To obtain
+an in-phase spectrum one half of the spectrum is inverted.</td></tr>
+</tbody>
+</table>
+
+<p>For processing States or States-TPPI spectra special care must be taken to provide matNMR with the proper
+format of the FID matrices. MatNMR uses the same format as Chemagnetics does and so the
+FID-matrix should be built up like this :<br><br>
+
+<b>
+|----------------> real part of the matrix<br>
+|RR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RI<br>
+|<br>
+|<br>
+|<br>
+|<br>
+------------------ imaginary part of the matrix<br>
+|IR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;II<br>
+|<br>
+|<br>
+|<br>
+|<br>
+|<br>
+<br></b>
+Here the RR part is the real part in t1 and t2. The RI is the imaginary part in t1 and the real part
+in t2, etc. (This gives the rather unnatural looking view of 2 FID's in the view)
+On Bruker and Varian machines the imaginary parts in t1 will probably be alternated with 
+the real parts in t1 :<br><br>
+<b>
+(RR RI)1<br>
+(IR II)1<br>
+(RR RI)2<br>
+(IR II)2<br>
+etc.<br><br>
+</b>
+
+After loading a Bruker or Varian States (or States-TPPI) FID into the workspace this first needs to be converted
+before starting the States processing. This is done from the corresponding entries in the "2D
+processing" menu: "Convert Bruker States" or "Convert Varian States".</p>
+<p><b>NOTE: Starting processing a States (or States-TPPI) spectrum can only be started by selecting the entry in the 
+2D Processing menu from the menubar!</b><br>
+This splits the matrix into the proper hypercomplex parts QFT1 and QFT2 and sets the proper flags.
+</p>
+
+
+
+<a name="Phasing"></a><h2>
+4.9 Phasing spectra</h2>
+
+<p>Phase correction of spectra is done using the phase menu (see also paragraph 5.1, <a href="MainWindow.html#Look">
+"General appearance"</a>). There are several ways to set the zeroth-order, first-order and
+second-order phase correction: There is a slider button, an edit button for writing the value in 
+directly and there are step-wise incremental buttons (small and big steps). To set the first-order 
+correction a reference position must be specified. This can be done by clicking on the "Reference Ph1" button. 
+A cross-hair will appear to aid finding the proper peak position. Clicking the left mouse button 
+defines the position. The "zero phases" button will set the phasing values to zero again.</p>
+<p>Note that to set the second-order phase correction one needs to push the check button in order 
+to open an extra panel (since it is not commonly used). The reference for the 2nd order phase 
+correction is always in the center of the spectrum since it is used to even out the effects of
+sharp cut-offs in modern audio filters; these effects are symmetrical around the center of the
+spectrum.</p>
+<p>While phase correcting a 2D spectrum it is often necessary to watch different slices to see
+whether the new phase values are any good. Switching to a new row or column (while not switching
+dimension!) will show this row/column with the phase values shown in the phase menu on screen.
+Only when switching dimension will the phase values be reset again. Alternatively to switching between slices
+one may use the "2D tool", which allows watching two additional slices/columns from which the quality
+of the phase correction may be estimated. The additional plots are updated with each change of the phase.<br>
+After having found a good phase correction for a 2D be sure to press the "Set Phase 2D" button to 
+impose the new phase correction on the entire 2D matrix!</p>
+
+
+
+
+<a name="BaselineCorrection"></a><h2>
+4.10 Baseline correction</h2>
+
+<p>A semi-interactive baseline correction routine is available both for 1D and 2D spectra. Upon selecting
+this function a window will appear looking either like:</p>
+
+<center><IMG SRC="../pics/1DBaselineCorrection.jpg" ALT="1D baseline"></center>
+<p><br>or</p>
+<center><IMG SRC="../pics/2DBaselineCorrection.jpg" ALT="2D baseline"></center>
+<p><br>
+For both the 1D and 2D baseline corrections the areas where peaks can be found in
+the spectrum must be identified before doing the fit. This can be done using the "Define Peaks"
+button. Using the left mouse button, click both left and right of a peak region to define it.
+A red marking will appear over the area. Any mouse click outside the axis or using the right
+mouse button cancels defining peaks.<br>
+For 2D spectra it is possible to have the projection onto the axis plotted in the window, to facilitate
+choosing the position of the peaks. The specified range in the 2D will be taken into account here, i.e.
+the projection shows the signal from the area that needs baseline correcting only!</p>
+
+<p>Next, the type of function that needs to be used for fitting the baseline must be specified.
+Currently one can choose from either a cosine series, a polynomial or a Bernstein polynomial.
+These are defined as:<br><br>
+
+<b>Polynomial of order 6:</b> 'A + B*x + C*x.^2 + D*x.^3 + E*x.^4 + F*x.^5'<br>
+<b>Cosine series of order 6:</b> 'A + B*cos(x) + C*cos(2*x) + D*cos(3*x) + E*cos(4*x) + F*cos(5*x)'<br>
+<b>Bernstein of order 6:</b> 'A*(1-x).^5 + B*(x).*((1-x).^4) + C*(x.^2).*((1-x).^3) + D*(x.^3).*((1-x).^2) + E*(x.^4).*(1-x) + F*(x.^5)'<br>
+<b>Sine:</b> 'A + B * sin(C*x + D)'<br>
+<b>Exponential:</b> 'A + B * exp(C*x)'<br><br>
+
+where A-F are the coefficients to be fitted to the baseline and x the coordinate along the
+spectral axis. After choosing the order
+to which the fit should go, and pressing "Fit" the fit is performed. Any order of fit is
+allowed but beware that a fit will become very bad when the order is too high.
+</p>
+<p>
+The resulting 1D spectrum or row/column from the 2D will be shown in the view. For 1D baseline 
+correction also the fitted baseline is shown in blue as a visual aid. To see the result of the 
+baseline correction for the whole 2D just step through the rows/columns.</p>
+
+<p>Should the baseline be satisfactory then the "Accept Fit" button must be pressed and the
+fit is made final. If not, either press "Undo" to obtain the original spectrum back or
+"Reject Fit" to reject the fit and stop the baseline correction routine while retaining the
+original spectrum.</p>
+
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+      src="http://www.w3.org/Icons/valid-html401"
+      alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+</body>
+</html>

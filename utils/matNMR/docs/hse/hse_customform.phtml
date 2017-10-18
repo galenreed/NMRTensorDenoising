@@ -1,0 +1,61 @@
+
+<form name="hse_form1" action="/cgi-bin/hse/HomepageSearchEngine.cgi" method="get" onsubmit="var go=checkinput(); return go;">
+<table border="0" cellspacing="0" cellpadding="0">
+<!-- Make sure the above path to HomepageSearchEngine.cgi is correct !!! -->
+	<tr>
+		<td class="HSE">
+			Find&#160;
+		</td>
+		<td class="HSE">
+			<input name="terms" type="text" size="20" maxlength="50" title="Input a search string here" />
+		</td>
+		<td class="HSE">
+			<select name="geturl" style="background-color: #dadada;" title="You can select here where you want to search">
+				<option value="highlightmatches gotofirstmatch">in this page</option>
+				<option value="off">in the whole site</option>
+			</select>
+		</td>
+		<td class="HSE">
+			&#160;
+			<input name="submit" type="submit" value="Go" style="font-family:Arial,sans-serif; cursor:hand; border:1px outset; background-color: green; color: white;" title="Click here to start the search!" />
+			&#160;
+		</td>
+		<td class="HSE">
+			<select name="matchcase" style="background-color: #dadada;" title="You can select here if you want to search case-sensitive">
+				<option value="off">case-insensitive</option>
+				<option value="on">case-sensitive</option>
+			</select>
+
+			<select name="noparts" style="background-color: #dadada;" title="You can select here if you don't want to accept parts of a word">
+				<option value="off">accept also parts of a word</option>
+				<option value="on">find only whole words</option>
+			</select>
+
+			<input name="conf" type="hidden" value="7" />
+			<!-- Make sure the conf value corresponds to the conf sub directory name (1..9) or is '0' to use the main configuration !!! -->
+			<input name="lang" type="hidden" value="en" />
+			<input name="cat" type="hidden" value="1" />
+			<input name="title" type="hidden" value="on" />
+			<input name="text" type="hidden" value="on" />
+			<input name="meta" type="hidden" value="on" />
+
+			<?php
+				if ($HTTP_SERVER_VARS['HTTP_HOST']) { 
+					$host = $HTTP_SERVER_VARS['HTTP_HOST'];
+				} else {
+					$host = $HTTP_HOST;
+				}
+				if ($HTTP_SERVER_VARS['PHP_SELF']) { 
+					$self = $HTTP_SERVER_VARS['PHP_SELF'];
+				} else {
+					$self = $PHP_SELF;
+				}
+			?>
+
+			<input name="url" type="hidden" value="http://<?php echo ($host . $self); ?>" />
+		</td>
+		<td class="HSE">&#160;<b><a href="#dummy" title="Help" style="cursor:help" onclick="var go=help_terms(); return go;">?</a></b></td>
+	</tr>
+</table>
+</form>
+

@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+	<link rel=stylesheet type="text/css" href="Manual.css">
+
+	<title>matNMR Manual Page: MatNMR and MATLAB</title>
+
+	<script type="text/javascript">
+	<!--
+	window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!"
+	// -->
+	</script>
+</head>
+
+<body>
+<a name="Intro"></a><h1>
+Chapter 3 - MATLAB and matNMR</h1>
+
+<a name="Workspace"></a><h2>
+3.1 MatNMR and the Workspace</h2>
+
+<p>One of the nice features of MATLAB is that it provides the user with a virtual workspace. 
+It is basically memory that can be seen and manipulated from the MATLAB command line. (e.g.
+the MATLAB <i>who</i> or <i>whos</i> commands can be used to see what variables are currently in your workspace)
+Any variable that is defined will be put in this workspace and can at any time be manipulated
+again. Only variables that are used in functions have their own workspace. These cannot
+be accessed from the workspace and vice versa. Only when defining a variable to be global
+one can use this subsequently in a function.</p>
+<p>MATLAB allows for two ways of programming: scripts (m-file) or functions. (for more information
+please read the MATLAB documentation) The first will work in the same workspace as can be
+seen from the workspace, whereas the second will usually only produce an output to the workspace.
+MatNMR has been programmed as a script and therefore ALL matNMR variables can be seen (AND
+manipulated!!) by the user. They are easy to recognize by the way as they ALWAYS start with a "Q"!<br><br>
+This has some consequences:<br>
+&nbsp;-High flexibility because a user can invoke certain changes manually, thereby manipulating the
+output produced by matNMR.<br>
+&nbsp;-Easy programming making user-additions to matNMR more easy.<br>
+&nbsp;-A huge number of matNMR variables are seen by the user, making it more difficult to see the
+forest through the trees.<br>
+&nbsp;-A risk of saving lots of unwanted matNMR variables to disk when trying to save something.<br>
+</p>
+<p>As the advantages strongly outweigh the disadvantages one just has to be careful when saving.
+Normally one can save all variables in the workspace by typing:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>save filename.mat</b><br>
+This however will include all the matNMR variables which will increase the file size considerably.
+Therefore for saving some variables one either has to quit matNMR and then save or
+specify the variables that need to be saved by typing:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>save filename.mat a b c d e f g</b><br>
+or by using the "Save Spectrum to Disk" menus in the 1D and 2D processing menus from the
+main window menubar (See chapter 5, <a href="MainWindow.html">"The main window"</a>).
+</p>
+<p>As a last remark: needless to say that the user must avoid using private variables that start with a
+"Q" as this may seriously affect matNMR!</p>
+
+
+<a name="Input"></a><h2>
+3.2 Input Expressions</h2>
+
+<p>Input in matNMR is usually done using either UI-controls from the main window and 2D/3D
+Viewer panel window OR using the standard input window:</p>
+<center><IMG src="../pics/InputWindow.jpg" ALT="input window"></center>
+<p>Whenever an edit button is used, i.e. a button in which one can write (for more information of different types of UI-controls
+please read the MATLAB documentation), the expression is evaluated afterwards using the
+MATLAB <i>eval</i> command. This means that any general function that produces a result that is
+correct for the given input question, can be given as input. For example in the input window
+displayed above one can specify "Name" as:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>a</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(where a is a variable in the workspace)<br>
+or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>a*10+4./b</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(where a and b are variables in the workspace)<br>
+or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>1:1024</b><br>
+or<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>diff((1.01).^(0:511))</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(type "help diff" for more information on diff.m)<br>
+etc ...
+<br><br>
+This again gives a lot of flexibility as the input format is free as long as the result is correct.
+<br><br>Note that the "full width" button allows expansion of the input window to the full width
+of the screen. This can be useful when the text written in the edit buttons is very long.
+</p>
+
+<a name="Variables"></a><h2>
+3.3 Important Variables</h2>
+
+Currently, matNMR is written as a script (m-file) with a large pool of global variables that are used
+to keep track of all things. These global variables are visible in the workspace as QmatNMR and
+QmatNMRsettings. Both are structures that contain many subitems. All items can be accessed in the usual
+way, i.e. QmatNMR.Spec1D will give the vector corresponding to the current 1D spectrum.
+
+<p>For most users it is not really necessary to know which variables are used by matNMR to do what.
+There are however a few variables of which it is probably not bad to know what they do. 
+Some of these will invariably show up eventually in some of the input windows and then it may be nice to 
+know what they are there for. The following list shows a few important variables used when working 
+with the main window:</p>
+<table border=yes align=center>
+<tr>
+<th>Variable Name</th>
+<th>Usage in matNMR</th>
+</tr>
+
+<tr><td>Spec1D</td><td>The current 1D spectrum</td></tr>
+
+<tr><td>Axis1D</td><td>The axis vector belonging to Spec1D</td></tr>
+
+<tr><td>Size1D</td><td>The dimension size of Spec1D</td></tr>
+
+<tr><td>SW1D</td><td>The spectral width of Spec1D in kHz</td></tr>
+
+<tr><td>SF1D</td><td>The carrier frequency of Spec1D in MHz</td></tr>
+
+<tr><td>Spec2D</td><td>The RR and RI parts of the current 2D spectrum (hypercomplex dataset)</td></tr>
+
+<tr><td>Spec2Dhc</td><td>The IR and II parts of the current 2D spectrum (hypercomplex dataset)</td></tr>
+
+<tr><td>AxisTD2</td><td>The axis vector belonging to TD2 of the current 2D spectrum</td></tr>
+
+<tr><td>AxisTD1</td><td>The axis vector belonging to TD1 of the current 2D spectrum</td></tr>
+
+<tr><td>SizeTD2</td><td>The dimension size of TD2 for the current 2D spectrum</td></tr>
+
+<tr><td>SizeTD1</td><td>The dimension size of TD1 for the current 2D spectrum</td></tr>
+
+<tr><td>SWTD2</td><td>The spectral width for TD2 of the current 2D spectrum in kHz</td></tr>
+
+<tr><td>SWTD1</td><td>The spectral width for TD1 of the current 2D spectrum in kHz</td></tr>
+
+<tr><td>SFTD2</td><td>The carrier frequency for TD2 of the current 2D spectrum in MHz</td></tr>
+
+<tr><td>SFTD1</td><td>The carrier frequency for TD1 of the current 2D spectrum in MHz</td></tr>
+
+<tr><td>Dim</td><td>The current dimension (0=1D, 1=TD2, 2=TD1)</td></tr>
+
+<tr><td>Fig</td><td>The figure handle for the main window</td></tr>
+
+<tr><td>History</td><td>The processing history belonging to the current 1D OR 2D spectrum</td></tr>
+
+<tr><td>HistoryMacro</td><td>The processing macro belonging to the current 1D OR 2D spectrum</td></tr>
+
+<tr><td>QFitResults</td><td>Results from the last peak fitting. These are not stored in the QmatNMR structure!
+For more information on the format of this variable see paragraph 5.3.1, <a href="MainWindow.html#PeakFitLook">
+General appearance</a>.</td></tr>
+
+<tr><td>QSSAFitResults</td><td>Results from the last MAS CSA fitting. These are not stored in the QmatNMR structure!</td></tr>
+
+<tr><td>QCSAFitResults</td><td>Results from the last static CSA fitting. These are not stored in the QmatNMR structure!</td></tr>
+
+<tr><td>QQuadFitResults</td><td>Results from the last quadrupolar-tensor fitting. These are not stored in the QmatNMR structure!</td></tr>
+
+<tr><td>QDiffFitResults</td><td>Results from the last diffusion-curve fitting. These are not stored in the QmatNMR structure!</td></tr>
+
+<tr><td>QT1FitResults</td><td>Results from the last relaxation-curve fitting. These are not stored in the QmatNMR structure!</td></tr>
+</tbody>
+</table>
+
+<p>As can be seen from the table there are different variables for 1D and 2D spectra. The 
+distinction between working in 1D or in 2D mode is quite clear although it cannot be seen directly 
+while working with matNMR. This is explained in more detail in paragraph 4.2, 
+<a href="Processing.html#1D2DModes">"1D and 2D mode"</a>.
+
+<p>A comparable list can be given for the 2D/3D Viewer window:</p>
+<table border=yes align=center>
+<tr>
+<th>Variable Name</th>
+<th>Usage in matNMR</th>
+</tr>
+
+<tr><td>Spec2D3D</td><td>The last plotted spectrum</td></tr>
+
+<tr><td>Axis2D3DTD2</td><td>The axis vector belonging to TD2 of Spec2D3D</td></tr>
+
+<tr><td>Axis2D3DTD1</td><td>The axis vector belonging to TD1 of Spec2D3D</td></tr>
+
+<tr><td>PeakList</td><td>The peak list belonging to Spec2D3D</td></tr>
+
+<tr><td>History2D3D</td><td>The processing history belonging to Spec2D3D</td></tr>
+
+<tr><td>Fig2D3D</td><td>The current 2D/3D Viewer window</td></tr>
+
+<tr><td>AxisNR2D3D</td><td>The current axis number (i.e. nr of subplot)</td></tr>
+
+<tr><td>AxisHandle2D3D</td><td>The axis handle belonging to AxisNR2D3D</td></tr>
+</table>
+
+
+
+
+<a name="NMR"></a><h2>
+3.4 Where is the NMR?</h2>
+
+<p>A big difference between working with matNMR and other NMR processing packages is that
+the user doesn't NEED to work with typical NMR parameters like spectral width, the carrier frequency, 
+etc while processing. Naturally that comes from the fact that MATLAB doesn't know NMR, only 
+matrices, vectors and numbers, and also matNMR doesn't care really about
+the NMR behind a FID, i.e. <b>every axis plotted below a spectrum is given in points unless
+a different axis is defined</b>.</p>
+<p>Having said that, matNMR does show the typical NMR units if wanted and if the relevant parameters
+have been supplied correctly. If the spectral width and the spectral frequency for a certain dimension
+have been supplied (either during loading of a <a href="MainWindow.html#Files"> binary FID</a>
+or manually, then the default axis, see also <a href="Installation.html#GeneralOptions">paragraph 
+2.2.1 General Options</a>, will produce proper time and frequency axes (Hz or PPM). The reference
+for such frequency axes is always set to 0 and in the center of the spectrum. NOTE that by changing
+the spectral width and/or spectral frequency the default axis will change immediately.
+</p>
+<p>There are two ways of properly referencing spectra: 1) defining and axis for a particular spectrum
+directly OR 2) by applying an external reference.<br>
+<b>1. </b>Axis vectors can be defined from the (Plot Manipulations - ruler X-axis) menubar in the main 
+window. The typical axes in PPM, Hz or time can be defined but also axes in points or other
+less typical axes can easily be defined (for more information on how to change the axis vector
+see paragraph 5.2.5, <a href="MainWindow.html#PlotManipulations">
+"Plot manipulations"</a>). As the spectrum is just a numerical matrix it can be manipulated very
+easily during processing. The axis vectors are just used for plotting, but on the other hand:<br>
+<b>NOTE: whenever there is an input concerning coordinates they must usually be given in the
+unit of the axis vector!</b> (e.g. for extracting parts of a spectrum, integrating, etc...)<br><br>
+<b>2. </b>An external reference may be loaded from external datasets, either as defined in a file on
+your spectrometer, or by using the reference as made in another variable in matNMR. To use the values
+set on your spectrometer it is possible to import those values by using the "Import external reference"
+in the "Plot Manipulations" - "Ruler X-Axis" - "External reference" menus. 
+MatNMR will then try and extract the values from
+other datasets on disk. Alternatively, you may define a fixed axis for a certain spectrum in matNMR, as
+described above. Either by saving the external reference directly, or by storing the spectrum in the
+workspace those values may serve as an external reference. The "Apply external reference" item will
+ask for a variable containing an external reference, i.e. a spectrum OR a reference only, which may then
+be applied to the current spectrum.
+</p>
+
+
+
+
+<a name="Format"></a><h2>
+3.5 matNMR format for spectra</h2>
+
+<p>MatNMR can save spectra either as matrices into the workspace (or onto disk directly) or in the
+matNMR format. This matNMR format makes a structure of the variable with the following fields:<br><br>
+<b>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.Spectrum<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.History<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.HistoryMacro<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.AxisTD2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.AxisTD1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.SweepWidthTD2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.SweepWidthTD1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.SpectralFrequencyTD2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.SpectralFrequencyTD1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.Hypercomplex<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.PeakListNums<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.PeakListText<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.FIDstatusTD2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;VariableName.FIDstatusTD1<br><br>
+</b>
+(for more information on structures and other MATLAB data types please read the MATLAB documentation)</p>
+
+<p>The spectrum will appear in the workspace as a struct array under the name VariableName. Saving in this
+format thus allows for easy access to the NMR parameters belonging to this spectrum. Note that for
+accessing the fields one needs to type "VariableName.FieldName" to obtain the proper result. As many
+functions will produce error messages when supplying them with the matNMR structure directly, it is
+important to realize of what type a certain variable is.</p>
+
+
+
+
+<a name="GUI"></a><h2>
+3.6 GUI and MATLAB</h2>
+
+<p>MatNMR is fully GUI (graphical user interface) programmed. Being able to do this is a nice feature of MATLAB 
+but it is not 100% perfect. Especially when clicking the mouse very fast onto several objects can be the cause of
+many problems. The problem can often be traced back to the code that is run (bad programming). Often however
+such problems arise from the fact that the MATLAB command line parser is slower than the mouse pointer. 
+When using functions like gcf, gca and gco (get current figure, get current axis and get current object 
+respectively) problems can occur because the current object is not the object that the code intended to work on. 
+Therefore a word of caution must be given: don't overdo it, don't try and be the fastest mouse-clicker on earth
+when working with MATLAB.</p>
+
+
+
+
+<a name="Memory"></a><h2>
+3.7 Memory usage</h2>
+
+<p>As matNMR does all processing in memory the memory usage can be quite considerable. Especially so because
+MATLAB will only take continuous blocks of memory when creating a new variable. This means that when it
+cannot find a block in the currently taken memory of the proper size it will ask for more memory. On a UNIX
+system this can easily lead to memory usage of 256Mb when processing a 2048x2048 sized spectrum. Under
+Windows this seems to be less of a problem though. Anyway, it is important to be aware of how much
+memory is in use and if necessary to stop MATLAB every once in a while, just to free the memory again.<br>
+Note, starting from version 2.7 matNMR has an optional undo function. Although very useful to have,
+this function may indeed induce massive memory usage if too many undo steps are allowed as the
+full matrices are stored for each step. More information on the undo function may be found in
+paragraph 5.2.11, <a href="MainWindow.html#Undo">"Goodies"</a>.</p>
+
+
+
+
+<a name="WYSIWYG"></a><h2>
+3.8 MATLAB and WYSIWYG</h2>
+
+<p>Unfortunately MATLAB in general is not a "what you see is what you get"-kind of program (WYSIWYG). 
+Neither is matNMR therefore. For versions of matNMR older than 2.6 (march 2001) this calls for some 
+improvisation if you really want to use matNMR to create nice plots. The axes, and therefore the spectra, 
+are always plotted at their correct positions. The problem mostly lies with the fonts. For some reason 
+they are not scaled in the same way as the axes. Especially the positioning of floating text, e.g. the 
+super title in the 2D/3D Viewer, must be checked in the resulting plot. In principle it therefore advised 
+to plot to a file on disk first before sending it to a printer.<br>
+For matNMR 2.6 (march 2001) and newer an option has been added to the printing menu: "enforce WYSIWYG".
+This tries to ensure WYSIWYG behaviour but it still isn't perfect. The routine works fine as long as
+the absolute size of the window is not bigger than the paper size. Upon rescaling the window and all
+its objects and fonts again there is a problem with the fonts in some cases. The best thing to do
+then is to resize the window manually and make sure that the printing routine does not need
+to rescale it. A warning message concerning this point will be given by the printing routine though.
+<br>For more information on how to output plots see chapter 7, <a href="matNMROutput.html#Intro">"Producing output"</a>.
+</p>
+
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+      src="http://www.w3.org/Icons/valid-html401"
+      alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+
+</body>
+</html>

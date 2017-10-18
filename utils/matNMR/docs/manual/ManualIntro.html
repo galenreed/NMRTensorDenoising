@@ -1,0 +1,86 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+	<link rel=stylesheet type="text/css" href="Manual.css">
+
+	<title>matNMR Manual Page: Introduction</title>
+
+	<script type="text/javascript">
+	<!--
+	window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!"
+	// -->
+	</script>
+</head>
+<body>
+
+<a name="Intro"></a><h1>
+Chapter 1 - How to read this manual ?</h1>
+
+<p>
+This manual was first written for matNMR 2.6 (October 2000) and describes all features and concept of it. 
+Subsequent releases have been incorporated into the manual. This means that the version that can
+be found on the website belongs to the latest release of matNMR. I am well aware that this manual is
+quite limited. It does for example not have an index and it doesn't allow searching through it. If
+anyone feels up to improving it, then please do so and send me the result!
+</p>
+
+<p>The manual is divided in several chapters focussed around some subjects. For all features the actions required to
+perform it and also the implementation are described (in short). The description of the implementation shall
+contain more information about what is done to a spectrum and how matNMR works. In most cases
+there will be no explanation of standard MATLAB commands or features; the user is referred to the
+MATLAB documentation then. Also no explanations will be given for typical NMR operations as
+these can be found relatively easy in the NMR literature.
+</p>
+
+<p>In many occasions there will be spoken of "The main window" and the "2D/3D Viewer". These are
+the two main windows in matNMR. The first is used for processing while the second is used mainly
+for displaying and analysis. They can be started independently from the MATLAB command line by
+typing "nmr" or "nmr2d" respectively. More information about these windows is given in
+chapter 5, <a href="MainWindow.html#Intro">"The main window"</a> and chapter 6,
+<a href="2D3DWindow.html#Intro">"The 2D/3D Viewer"</a></p>
+
+<p>In the manual there will be made no clear distinction between an FID, a spectrum or a
+matrix. MATLAB does not care about the NMR behind a spectrum as it only knows matrices and
+vectors (for more information see paragraph 3.4, <a href="matNMRMATLAB.html#NMR">"Where is the 
+NMR?"</a>). Therefore whenever it says "FID" or "spectrum" in this manual it could just as well
+say "matrix" because in the end they're all the same thing.</p>
+
+
+<a name="WhatToRead"></a><h2>
+1.1 Which parts of this manual should I definitely read ?</h2>
+
+<p>
+MatNMR can in principle be used as an independent processing program, just like any other package,
+making knowledge of MATLAB not really necessary. To use all its features to the fullest however
+one needs to know some things about it. These things are explained in chapter 3, 
+<a href="matNMRMATLAB.html#Intro">"matNMR and MATLAB"</a>. There the interaction of matNMR and MATLAB 
+is described in some detail. Even when you don't intend to do fancy stuff however I strongly advise you 
+to read this chapter!
+</p>
+
+<p>
+Also I advise you to read Chapter 4, <a href="Processing.html#Intro">"Processing in matNMR"</a>. 
+This explains how processing in matNMR is thought to be done. Also things like using the processing 
+history and macro's effectively are explained in more detail here.</p>
+
+<p>
+The installation of matNMR is explained in chapter 2, <a href="Installation.html#Intro">"Installing matNMR"</a>.
+How to configure matNMR to your personal likings is described in paragraph 2.2, 
+<a href="Installation.html#Setup">"Setting up matNMR (options)"</a>.</p>
+
+<p>
+Finally for people who don't want to use the matNMR user interface Chapter 8
+, <a href="Offline.html#Intro">"Offline Processing with matNMR"</a> explains how
+to use the processing capabilities in user-defined scripts.</p>
+
+<p>
+      <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+</body>
+</html>

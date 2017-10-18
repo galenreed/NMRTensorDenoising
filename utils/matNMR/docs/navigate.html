@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+<title>matNMR: Navigation frame</title>
+
+<base target="content">
+<script type="text/javascript">
+<!--
+window.defaultStatus ="Navigate by clicking on a button"
+// -->
+</script>
+
+<SCRIPT language="JavaScript" type="text/javascript">
+<!--
+var bn=navigator.appName;var vn=parseInt(navigator.appVersion);
+var p1=null;var p2=null;var p3=null;var p4=null;var p5=null;var p6=null;var p7=null;
+function on_img(loc,img) {};
+menuimg = new Array(14);
+if((vn>=3 && bn=="Netscape") || (vn>=4 && bn=="Microsoft Internet Explorer"))
+{
+  menuimg[ 1] =  new Image (135,40); menuimg[ 1].src= "pics/home1.jpg";
+  menuimg[ 2] =  new Image (135,40); menuimg[ 2].src= "pics/home2.jpg";
+  menuimg[ 3] =  new Image (135,40); menuimg[ 3].src= "pics/intro1.jpg";
+  menuimg[ 4] =  new Image (135,40); menuimg[ 4].src= "pics/intro2.jpg";
+  menuimg[ 5] =  new Image (135,40); menuimg[ 5].src= "pics/notes1.jpg";
+  menuimg[ 6] =  new Image (135,40); menuimg[ 6].src= "pics/notes2.jpg";
+  menuimg[ 7] =  new Image (135,40); menuimg[ 7].src= "pics/faq1.jpg";
+  menuimg[ 8] =  new Image (135,40); menuimg[ 8].src= "pics/faq2.jpg";
+  menuimg[ 9] =  new Image (135,40); menuimg[ 9].src= "pics/reference1.jpg";
+  menuimg[10] =  new Image (135,40); menuimg[10].src= "pics/reference2.jpg";
+  menuimg[11] =  new Image (135,40); menuimg[11].src= "pics/download1.jpg";
+  menuimg[12] =  new Image (135,40); menuimg[12].src= "pics/download2.jpg";
+ 
+}
+function on_img(loc,img)
+  {
+   if((vn>=3 && bn=="Netscape") || (vn>=4 && bn=="Microsoft Internet Explorer"))
+    loc.src=menuimg[img].src;
+  }
+// -->
+</SCRIPT>
+
+</head>
+
+<body text="#000000" bgcolor="#B0B0B0" link="#0040A0" vlink="#0040A0" alink="#FF0040" background="pics/wall.jpg"><center>
+<img src="pics/smalllogo.gif" ALT="logosmall"><br>
+<a href="content.html" onMouseOver="on_img(p1,2);self.status='Homepage';return true"onMouseOut="on_img(p1,1);return true">
+<img src="pics/home1.jpg" name="p1" alt="Homepage" border=0 width="135" height="40"></a>
+<br>
+<a href="intro.html" onMouseOver="on_img(p2,4);self.status='Introduction';return true"onMouseOut="on_img(p2,3);return true">
+<img src="pics/intro1.jpg" name="p2" alt="Introduction" border=0 width="135" height="40"></a>
+<br>
+<a href="notes.html" onMouseOver="on_img(p3,6);self.status='Release Notes';return true"onMouseOut="on_img(p3,5);return true">
+<img src="pics/notes1.jpg" name="p3" alt="Release Notes" border=0 width="135" height="40"></a>
+<br>
+<a href="faq.html" onMouseOver="on_img(p4,8);self.status='F.A.Q';return true"onMouseOut="on_img(p4,7);return true">
+<img src="pics/faq1.jpg" name="p4" alt="F.A.Q." border=0 width="135" height="40"></a>
+<br>
+<a href="manual/index.html" target='_top' onMouseOver="on_img(p5,10);self.status='Online Reference';return true"onMouseOut="on_img(p5,9);return true">
+<img src="pics/reference1.jpg" name="p5" alt="Online Reference" border=0 width="135" height="40"></a>
+<br>
+<a href="download.html" onMouseOver="on_img(p6,12);self.status='Download Sources';return true"onMouseOut="on_img(p6,11);return true">
+<img src="pics/download1.jpg" name="p6" alt="Download sources" border=0 width="135" height="40"></a>
+
+<br><br><br>
+<a href="http://sourceforge.net/projects/matnmr" target='_top'>To go to the matNMR project page at source forge:<br>
+<img src="http://sourceforge.net/sflogo.php?group_id=79407&amp;type=3" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+
+<br><br><br>
+<a href="http://sourceforge.net" target='_top'>To go to the source forge homepage:<br>
+<img src="http://sourceforge.net/sflogo.php?group_id=79407&amp;type=2" width="125" height="37" border="0" alt="SourceForge.net Logo" /></a>
+</center>
+
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+	<link rel=stylesheet type="text/css" href="Manual.css">
+
+	<title>matNMR Manual Page: Installation</title>
+
+	<script type="text/javascript">
+	<!--
+	window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!"
+	// -->
+	</script>
+</head>
+<body>
+
+<a name="Intro"></a><h1>
+Chapter 2 - Installing matNMR</h1>
+
+<a name="Installation"></a><h2>
+2.1 Installing matNMR</h2>
+
+<p>Installing matNMR only requires copying the files into a directory and setting the search path
+variable such that it can find it. There are however some small differences between UNIX systems
+and Windows/MAC systems. For both the preferred way of installation is described below.</p>
+
+<a name="InstallationUNIX"></a><h3>
+2.1.1 UNIX</h3>
+
+<p>To install matNMR for a single user only on a UNIX system one must first extract the downloaded 
+code into any directory. Here I will use '/home/jabe/matlab/matNMR' as an example. 
+Then one must change or create the file ~/matlab/startup.m. Specifically,
+the PATH variable needs to be changed so that MATLAB looks in the directory in which you have
+just extracted the source code. This is a possible syntax to change the path:</p>
+<br><center><b>
+path('/home/jabe/matlab/matNMR', path);
+</b></center>
+<p>No further actions should be needed.
+</p>
+
+<p>To install matNMR globally (i.e. for all users) on a UNIX system it is easiest to add a 
+directory called matNMR to the matlabroot/toolbox directory (note that one needs the proper 
+rights to do this, usually super user). Then extract the downloaded code into this directory. 
+You then need to edit the matlabroot/toolbox/local/pathdef.m file. There
+you should add the matlabroot/toolbox/matNMR directory to the list of standard directories.</p>
+
+<p>In the matNMR directory there is a file called matnmroptions.mat and this is the configuration
+file for matNMR. If users have not copied this file into their personal matlab directory 
+~user/matlab then these settings will be used by matNMR. Note that users usually don't have permission
+to overwrite this file and therefore not change their settings! For more information on this see
+paragraph 2.2 <a href="Installation.html#Setup">"Setting up matNMR (Options)"</a>.</p>
+
+
+
+<a name="InstallationWindows"></a><h3>
+2.1.2 Windows / MAC</h3>
+
+<p>To install matNMR on a Windows or Macintosh system it is easiest to add a directory called matNMR to the
+matlabroot\toolbox directory. Then extract the downloaded code into this directory. To make matNMR generally
+available to all users you need to edit the matlabroot\toolbox\local\pathdef.m file. There
+you should add the matlabroot\toolbox\matNMR to the list of standard directories.</p>
+
+<p>In the matNMR directory there is a file called matnmroptions.mat and this is the configuration
+file for matNMR. As users usually do not have a user-specific matlab directory (as on UNIX) all
+users will use the same configuration file. Only if the system can be set up such such that in the
+pathdef.m a user-specific matlab directory is specified, it can be avoided that all users use the
+same configuration file. If such a setup is present then users can copy the matnmroptions.mat into
+their personal matlab directory and have a personal configuration. Note that it is necessary to
+have the personal matlab directory before the (general) matNMR directory for this to work!
+How to change the settings is described below.
+</p>
+
+
+
+<a name="Setup"></a><h2>
+2.2 Setting up matNMR (Options)</h2>
+
+<p>Several user-defined settings can be stored in matNMR, e.g. screen size, UI font size, the fonts
+the matNMR recognizes, line properties, text properties etc. All these are stored in the file
+matnmroptions.mat. When matNMR is started it will determine the location of this file and subsequent
+saving of the settings will be done to this location.</p>
+
+<p>To configure matNMR to your liking start up the main window with "nmr" from the MATLAB prompt. In the
+resulting window you will find the "Options" in the menubar. Clicking the mouse pointer on this menu
+will show a list of possible settings that can be changed:<br><br>
+
+-General Options<br>
+-Colour scheme settings<br>
+-Screen settings<br>
+-Font List<br>
+-Line properties<br>
+-Text properties<br>
+-Restore Defaults<br></p>
+
+<p>In all of these menus changes of settings are applied either immediately or after pressing the
+"EXECUTE" button. Without saving these changes they only apply for this session. The next session
+will then use the default parameters again as saved in the matnmroptions.mat file. Selecting the
+"Restore Defaults" will change all settings back to their default values.</p>
+
+
+<a name="GeneralOptions"></a><h3>2.2.1 General Options</h3>
+<center><img src="../pics/GeneralOptions.jpg" ALT="general options"></center><br>
+<p><br>The general options menu is used to set some general working parameters.
+These include:<br>
+&nbsp;-whether to show a logo during startup (general)<br>
+&nbsp;-whether to ask for confirmation when closing a window (general)<br>
+&nbsp;-How many processing steps may be undone in 1D mode<br>
+&nbsp;-How many processing steps may be undone in 2D mode (<a href="MainWindow.html#Undo">Beware of memory usage</a>)<br>
+&nbsp;-whether to plot a x-scale by default (main window)<br>
+&nbsp;-whether to plot a y-scale by default (main window)<br>
+&nbsp;-which menus to show on startup (main window) - 1D / phase / 2D menus<br>
+&nbsp;-whether to use an absolute or a relative(0-1) y-scale by default (main window)<br>
+&nbsp;-whether to plot a grid by default (main window)<br>
+&nbsp;-whether to multiply the first point of the FID by 0.5 by default<br>
+&nbsp;-what type of FFT is used in TD2 by default (main window)<br>
+&nbsp;-what type of FFT is used in TD1 by default (main window)<br>
+&nbsp;-what default axes should be used for the time and frequency domains in both dimensions,
+see also <a href="matNMRMATLAB.html#NMR">paragraph 3.4 Where is the NMR</a> (main window)<br>
+&nbsp;-how many contour levels to use by default (2D/3D Viewer)<br>
+&nbsp;-the default lower contour level limit (2D/3D Viewer)<br>
+&nbsp;-the default upper contour level limit (2D/3D Viewer)<br>
+&nbsp;-whether to use positive, negative, etc contours by default (2D/3D Viewer)<br>
+&nbsp;-the default azimuth angle for a mesh plot (2D/3D Viewer)<br>
+&nbsp;-the default elevation angle for a mesh plot (2D/3D Viewer)<br>
+&nbsp;-the default azimuth angle for a 3D stack plot (2D/3D Viewer)<br>
+&nbsp;-the default elevation angle for a 3D stack plot (2D/3D Viewer)<br>
+&nbsp;-the default colormap in the 2D/3D Viewer<br>
+&nbsp;-the default page orientation for printing<br>
+&nbsp;-the default paper size for printing<br>
+</p>
+
+
+<a name="ColourSchemeSettings"></a><h3>2.2.2 Colour Scheme Settings</h3>
+<center><img src="../pics/ColourSchemeSettings.jpg" ALT="colour scheme"></center>
+<p>This menu is used to define the colour scheme used in all matNMR windows. Several schemes
+have been pre-defined from which it is easy to make changes, if necessary. After changing
+values the results button will change, although for a complete overview of the effect
+matNMR must unfortunately be restarted. You MUST save the colour scheme before restarting
+matNMR! Note that this manual only shows the classic colour scheme.</p>
+
+
+<a name="ScreenSettings"></a><h3>2.2.3 Screen Settings</h3>
+<center><img src="../pics/ScreenSettings.jpg" ALT="screen settings"></center>
+<p>This menu is used to define the screen sizes of the three main matNMR windows and also the
+font size that is used for UIcontrols. The numbers denote the size of the windows in relative
+units, i.e. they range from 0 to 1. Changes are applied immediately (just be sure to press
+"ENTER" after changing a value!).</p>
+
+<a name="FontList"></a><h3>2.2.4 Font List</h3>
+<img src="../pics/FontList.jpg" ALT="font list">
+<p>The font list menu species the list of fonts that matNMR recognizes. The default list in the
+downloaded code is based on a UNIX system which means many Windows/Macintosh fonts are not in this
+list! It is recommended to push the "import system fonts" button to create a list of fonts
+recognized on your system.</p>
+
+<a name="LineProperties"></a><h3>2.2.5 Line Properties</h3>
+<center><img src="../pics/LineProperties.jpg" ALT="line properties"></center>
+<p>The line properties hold for both the plots in the main window and the 2D/3D Viewer, i.e. for
+contour plots and 3D stack plots. 
+This menu can but should not be used for changing the appearance of single plots as all windows
+will be affected by this. For that the "Plot Manipulations" menu should be used instead.</p>
+
+
+<a name="TextProperties"></a><h3>2.2.6 Text Properties</h3>
+<center><img src="../pics/TextProperties.jpg" ALT="Text properties"></center>
+<p>The text properties hold for both the plots in the main window and the 2D/3D Viewer. 
+This menu can but should not be used for changing the appearance of single plots as all windows
+will be affected by this. For that the "Plot Manipulations" menu should be used instead.</p>
+
+<p>
+  <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+      src="http://www.w3.org/Icons/valid-html401"
+      alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+
+</body>
+</html>

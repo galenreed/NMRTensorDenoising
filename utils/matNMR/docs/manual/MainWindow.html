@@ -1,0 +1,2795 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+
+	<link rel=stylesheet type="text/css" href="Manual.css">
+
+	<title>matNMR Manual Page: MainWindow</title>
+
+	<script type="text/javascript">
+	<!--window.defaultStatus ="Remember: if you want flexibility, matNMR is the right choice!" // -->
+	</script>
+</head>
+
+<body>
+<a name="Intro"></a><h1>
+Chapter 5 - The main window</h1>
+
+<p>The main window is started using the nmr.m script, i.e. type 'nmr' at the Matlab prompt to start it.
+All processing is done from this window and all other functionality implemented in matNMR can be accessed
+from the menubar or the Uicontrols.</p>
+
+<a name="Look"></a><h2>
+5.1 General Appearance</h2>
+
+<p>
+The general appearance of the matNMR main window is shown in the figure below:<br><br>
+<IMG SRC="../pics/MainWindow.jpg" ALT="main window"><br><br>
+There are five boxes shaded with a background box around it. Going from top-left to bottom-right they contain<br>
+1- a stop-button, a direct-printing button (prints to the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file) and some buttons to open the various menus<br>
+2- some often-used buttons for working with 1D spectra. More functions can be found in the menubar.<br>
+3- the phasing menu. (see also paragraph 4.9, <a href="Processing.html#Phasing">"Phasing spectra"</a>)<br>
+4- some buttons for zooming in discrete steps or continously (zoom button). Furthermore there is the
+"reset figure" button which resets the current view (leaving nothing but the current 1D spectrum
+Qspc2 in the view!) and the "get position" button allows to scan the lines in the plot using the mouse 
+pointer. Upon pressing the left mouse button a crosshair will appear and some buttons that show the
+coordinate and the intensity of the current trace. When more than one lines are in the plot a popup
+button will appear to choose which line the routine should follow.<br>
+5- some often-used buttons for working with 2D spectra. More functions can be found in the menubar.<br>
+</p>
+<p>Then there are some buttons just above the box with zoom functions.<br> 
+The "display mode" is for defining whether to show the real, imaginary or absolute value of a FID/
+spectrum. Note that this is only a matter of displaying. MatNMR always works with complex values.<br>
+The "fourier mode" defines what type of FFT is performed when the FFT-button is pressed (see also 
+paragraph 4.8, <a href="Processing.html#FourierTransform">"Fourier transform"</a>).<br>
+The "apodization" button allows choosing an apodization function. Usually an input window will appear
+to ask for more information.<br>
+The "spectr. width" edit button allows to directly enter the spectral width belonging to the 1D FID/spectrum
+or 2D row/column. In case of a 2D mode the value will be connected to the relevant spectral dimension.
+Changing the dimension (say from TD2 to TD1) and back will then give the previously entered value back
+again.
+The "spectr. freq." edit button allows to directly enter the spectral frequency belonging to the 
+1D FID/spectrum or the current 2D row/column. In case of a 2D mode the value will be connected to 
+the relevant spectral dimension. Changing the dimension (say from TD2 to TD1) and back will then 
+give the previously entered value back
+again.
+</p>
+
+<p>
+Finally there are five buttons on the right on the plot. The top button calls the 
+<a href="MainWindow.html#Undo">undo function</a>. The second button shows the mode matNMR
+is in, either 1D or 2D. The third button specifies whether the FID/
+spectrum in the current plot is an FID or a spectrum. This determines the plotting direction (For
+non-NMR people: in NMR the convention is to plot a time-scale from left-to-right, a PPM scale from
+right-to-left and a Hertz (Hz) scale depending on the gyromagnetic ratio of a nucleus).<br>
+The "Transfer Acq." button has a highly specific function: it uploads the variable QacqFID from the workspace
+and makes it the current spectrum (1D or 2D). This has been implemented because some people wanted to
+use MATLAB for a spectrometer interface.<br>
+The "Reload Last" button reloads the last 1D or 2D FID/spectrum. It just evaluates the Qspct variable
+that is used by matNMR to denote the name of the last 1D/2D spectrum (for more information on variables
+used by matNMR see paragraph 3.3, <a href="matNMRMATLAB.html#Variables">"Important variables"</a>).
+</p>
+
+
+
+<a name="Menubar"></a><h2>
+5.2 The menubar</h2>
+
+<p>As the menubar contains most of the processing functions implemented in matNMR all entries will be 
+explained here separately. Note that many of the processing functions may also be accessed from the
+context menus that are defined. Context menus may be accessed by right-clicking anywhere within the
+figure window (even on top of the UI controls!). The context menus are also accessible on top of the axis,
+except when the zoom function is switched on. Switching off the zoom will result in the context menus
+being accessible again.</p>
+
+
+
+<a name="Stop"></a><h3>
+5.2.1 Stop matNMR</h3>
+
+<p>
+This function allows to stop matNMR or quit MATLAB. Depending on whether the exit safety flag was
+set (see paragraph 2.2.1, <a href="Installation.html#GeneralOptions">"General options"</a>) an input
+window will appear to ask for confirmation when stopping matNMR. For quiting MATLAB the user is
+always asked for confirmation. Note that when stopping matNMR <b>ALL</b> windows belonging to matNMR
+are closed, including the 2D/3D Viewer. Stopping other routines will not stop any other routines 
+though.
+</p>
+
+
+
+<a name="Files"></a><h3>
+5.2.2 Files</h3>
+
+<p>This menu deals with the importing of files into MATLAB:<br><br>
+
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>External MATLAB files</td><td>Opens a window which allows selecting the MATLAB file that needs to be
+uploaded into the workspace from disk.</td></tr>
+
+<tr><td>Series of external MATLAB files</td><td>Allows importing a series of similarly-named MATLAB
+files from disk into the workspace. The files should have a common name and a specific range 
+attached to them. For example the series j011101_1, j011101_2, ... , j011101_20 is imported by 
+supplying 'j011101_$#$' as the name and '1:20' as the range.</td></tr>
+
+<tr><td>Last series of external MATLAB files</td><td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window.</td></tr>
+
+
+<tr>
+<td>Import</td>
+<td>
+<table border=yes>
+<tr>
+<td>Binary FID's</td>
+<td>Opens a window which allows selecting the FID file that needs to be
+oploaded into the workspace. After selecting the file a second input window will ask for the sizes 
+of the FID and a name for the new variable (in the workspace). 
+If selected, the FID will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.<br>
+
+The total number of points (real+imaginary!) in the FID file is indicated in this window. 
+This number does not hold for the VNMR (Varian) format as this routine only divides the binary 
+file size by 4 (floating point format uses 4 bytes per number). The structure of the VNMR FID
+files prevents displaying the correct size.<br>
+Currently the formats for XWinNMR, UXNMR, winNMR (Bruker), Spinsight (Chemagnetics), VNMR (Varian)
+NTNMR (TecMag), MacNMR (TecMag), Bruker Aspect 2000/3000 and JEOL Generic format are recognized. 
+Limited support for the SMIS format is also implemented.
+<br><br>Depending on which format is chosen the time domain sizes must be specified. Whenever it
+is not necessary to do this the corresponding uicontrols are disabled.
+<br><br>It is also possible to use the standard spectrometer parameter files to specify all the
+necessary parameters. This is particularly useful in connection with the default axes, see also
+<a href="matNMRMATLAB.html#NMR">paragraph 3.4 Where is the NMR</a> and 
+<a href="MainWindow.html#PlotManipulations">paragraph 5.2.5 Plot manipulations</a>.<br>
+Then for all Bruker formats the files "acqu" and "acqu2" are used, for
+Chemagnetics the "acq" file, for VNMR the "procpars" and for JEOL Generic format the ".hdr" file.
+<br>It is important to note that the following assumptions are made when using the standard
+parameter files:
+<ul>
+<li>only the standard files can be used</li>
+<li>if the sizes in the parameter files do not match the size of the FID an error is given</li>
+<li>For 2D spectra the values for the spectral width and spectrometer frequency are not generally reliable 
+unless the FID has been recorded following the standard pulse programming style for that spectrometer 
+and using the corresponding standard variables. 
+<br><b>Even then the following limitations apply:</b>
+<ul>
+<li>For Bruker SWH and SFO1 are read from acqu2 for the indirect dimension</li>
+<li>For Chemagnetics dw and dw2 to calculate SWH by SWH=1/dw (i.e. States is assumed in the
+indirect dimension!). Arrays are read without problems but the SWH is set to 1 in the indirect
+dimension. The spectrometer frequency in TD1 is taken to be the same as in TD2.</li>
+<li>For VNMR sw and sfrq are read for TD2 and sw1 for TD1. The spectrometer frequency in TD1 is
+set to the same value as for TD2.</li>
+<li>For JEOL x_curr_points, x_freq and x_sweep are used for TD2 and y_curr_points, y_freq and
+y_sweep for TD1.</li>
+</ul>
+</ul>
+<br><b>NOTE: IF YOU WANT TO IMPROVE THIS OVERSIMPLIFIED SCHEME PLEASE LET ME KNOW!!</b><br>
+</td>
+</tr>
+
+<tr>
+<td>Get last binary FID</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra). If selected, the FID will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Series of binary FIDs</td>
+<td>Allows importing a series of similar binary FIDs into the 
+workspace. They should have a common name and a specific range attached to them. For example 
+the series j011101_1, j011101_2, ... , j011101_20 is imported by supplying 'j011101_$#$' as the 
+name and '1:20' as the range.</td>
+</tr>
+
+<tr>
+<td>Last series of binary FIDs</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra).</td>
+</tr>
+
+
+<tr>
+<td>Bruker Spectrum</td>
+<td>opens a window which allows selecting the Bruker spectrum file that 
+needs to be oploaded into the workspace. After selecting a second input window will ask for size and 
+name of the new variable. Most of these parameters can be avoided by using the option of reading
+standard parameter files, which will look for the original parameter file and extract the necessary
+parameters. Alternatively, they may be entered by hand:
+<br>The blocking factor is a feature that is used by XWinNMR sometimes
+(mainly older versions) to save a spectrum in blocks. 
+The number that must be specified here is the XDIM parameter that
+is written in the procs and proc2s files, in the directory of the dataset. If 0 is entered then
+no blocking factor is taken.<br>
+The byte ordering determines how XWinNMR has stored the data. Taking the wrong type will 
+typically result in meaningless noise. This information is in fact stored in the <b><i>procs</i></b>
+file but it's just as fast to select it yourself, than it is to select a file on disk. If the data
+has been processed on SGI then the byte ordering should be big endian, else it is most likely
+little endian.<br>
+The imaginary and hypercomplex parts may be loaded automatically by selecting the option
+in the input window. This assumes that all file names are standard, i.e. that a standard Bruker dataset
+is presented.<br>
+Finally, if selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Get last Bruker Spectrum</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra). If selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Series of Bruker spectra</td>
+<td>Allows importing a series of similar Bruker spectra
+into the workspace. They should have a common name and a specific range attached to 
+them. For example the series j011101_1, j011101_2, ... , j011101_20 is imported by supplying 
+'j011101_$#$' as the name and '1:20' as the range.</td>
+</tr>
+
+<tr>
+<td>Last series of Bruker spectra</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra).</td>
+</tr>
+
+
+<tr>
+<td>Chemagnetics Spectrum</td>
+<td>opens a window which allows selecting the Chemagnetics spectrum file that 
+needs to be oploaded into the workspace. After selecting a second input window will ask for size and 
+name of the new variable. Most of these parameters can be avoided by using the option of reading
+standard parameter files, which will look for the original parameter file and extract the necessary
+parameters. If selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Get last Chemagnetics Spectrum</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra). If selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Series of Chemagnetics spectra</td>
+<td>Allows importing a series of similar Chemagnetics spectra
+into the workspace. They should have a common name and a specific range attached to 
+them. For example the series j011101_1, j011101_2, ... , j011101_20 is imported by supplying 
+'j011101_$#$' as the name and '1:20' as the range.</td>
+</tr>
+
+<tr>
+<td>Last series of Chemagnetics spectra</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra).</td>
+</tr>
+
+
+<tr>
+<td>SIMPSON ASCII</td>
+<td>opens a window which allows selecting the SIMPSON ASCII file that 
+needs to be oploaded into the workspace. After selecting a second input window will ask for the 
+name of the new variable. If selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Get last SIMPSON ASCII</td>
+<td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of similarly named spectra). If selected, the spectrum will be read into matNMR directly, otherwise the variable will
+only be stored in the workspace and a "Load nD" must be executed to load it into matNMR.</td>
+</tr>
+
+<tr>
+<td>Series of SIMPSON ASCII</td>
+<td>Allows importing a series of similarly-named SIMPSON
+ASCII files into the workspace. They should have a common name and a specific range attached to 
+them. For example the series j011101_1, j011101_2, ... , j011101_20 is imported by supplying 
+'j011101_$#$' as the name and '1:20' as the range.</td>
+</tr>
+
+<tr>
+<td>Last series of SIMPSON ASCII</td><td>As the previous function but takes the file name to be the same
+as the previously-chosen file and immediately goes to the second input window (for faster uploading
+of equal sized spectra).</td>
+</tr>
+</table>
+</td></tr>
+
+
+
+
+
+<tr>
+<td>Export</td>
+<td>
+<table border=yes>
+<tr>
+<td>Save as SIMPSON ASCII</td>
+<td>opens a window which allows selecting a file thatis used
+to store the current 1D or 2D on disk in SIMPSON ASCII format.</td>
+</tr>
+</table>
+</td></tr>
+
+
+
+
+<tr>
+<td>Series Trickery</td>
+<td>These functions allow all sorts of actions to be done on a series of variables in the workspace, which
+have common names and a specific range attached to them. For example the series j011101_1,
+j011101_2, ... , j011101_20 can be addressed by supplying 'j011101_$#$' as the 
+name and '1:20' as the range. The following functions have been defined currently.
+<table border=yes>
+<tr>
+<td>Add series of variables</td>
+<td>Allows adding a series of variables.</td>
+</tr>
+
+<tr>
+<td>Concatenate series of variables</td>
+<td>Allows concatenating a series of variables in the workspace, which
+have a common name and a specific range attached to them.</td>
+</tr>
+
+<tr>
+<td>Normalize series of variables</td>
+<td>Allows normalizing a series of variables in the workspace, which
+have a common name and a specific range attached to them, to either the same maximum or the same integral.</td>
+</tr>
+
+</table>
+</td></tr>
+
+
+<tr>
+<td>Change directory</td>
+<td>Sets the current directory path</td>
+</tr>
+
+<tr>
+<td>Set search profile</td>
+<td>Sets the search profile for binary FID's / Bruker spectra / SIMPSON 
+ASCII files</td>
+</tr>
+
+<tr>
+<td>Edit MATLAB path</td>
+<td>Starts the MATLAB search path editor</td>
+</tr>
+
+<tr>
+<td>Edit Workspace</td>
+<td>Starts the MATLAB workspace editor</td>
+</tr>
+
+<tr>
+<td>Editor/Debugger</td>
+<td>Starts the MATLAB m-file editor/debugger</td>
+</tr>
+</table>
+
+
+
+<a name="1DProcessing"></a>
+<h3>5.2.3 1D Processing</h3>
+
+<p>This menu deals with everything concerning working with 1D spectra:<br>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr>
+<td>Load 1D</td>
+<td>Gets a new 1D spectrum. An axis vector may be specified and also whether 
+the variable is an FID or a spectrum (see also button information in paragraph 5.1, 
+<a href="MainWindow.html#Look">"General appearance"</a>).</td>
+</tr>
+
+<tr>
+<td>Add Spectrum to Workspace</td>
+<td>Saves the current 1D spectrum to the workspace. Depending on 
+whether the history and/or axis vector must be included a matNMR structure will be created (also
+see paragraph 3.5, <a href="matNMRMATLAB.html#Format">"matNMR format for spectra"</a>).</td>
+</tr>
+
+<tr>
+<td>Save Spectrum to Disk</td>
+<td>As the previous function but saves the variable to disk. In case
+more than one variable names are given in the input window it will save the variables without doing
+anything with the current 1D spectrum!</td>
+</tr>
+
+<tr>
+<td>Dual display</td>
+<td><p>Adds an additional line to the view. If no axis vector is specified
+then the current axis vector Qtempvec1d will be used. Note that the new spectrum must have the same
+size then. If a spectrum of different size is given then an axis vector MUST be specified. Spectra
+that are added to the view using "dual plot" do not influence any processing steps. Every time
+the plot is refreshed by matNMR (or by applying the "reset figure" button, see paragraph 5.1,
+<a href="MainWindow.html#Look">"General appearance"</a>) they will be removed.</p>
+<p>Various plot types are supported by the dual plot routine: normal plots, horizontal stack plots,
+vertical stack plots, 1D bar plots and errorbar plots. This will affect the input window that will
+pop up when selecting this function.</p></td>
+</tr>
+
+<tr>
+<td>Convert Bruker qseq</td>
+<td>The Bruker qseq acquisition mode is basically TPPI in 1D. This in
+principle should be a real vector but when loading a binary the FID is in fact complex. 
+This function converts the FID into a real vector with all real and imaginary points concatenated and
+every second complex point inverted:<br> 
+R I R I R I R I R I R I R I...<br>
+This function does not need to be used as the qseq mode for FT allows direct processing but is
+recommended. Direct processing in principal does not allow further manipulation (e.g. apodization 
+is ever so slightly wrong when applying it to the complex vector).</td>
+</tr>
+
+
+
+
+<tr>
+<td>Standard Processing</td>
+<td>
+<table border=yes>
+<tr>
+<td>Remove Bruker digital filter</td>
+<td>Removes the effects of the Bruker digital filter. This
+filter performs a time-shift on the FID of n points which can be corrected by giving a 360*n degree first order
+phase correction to the spectrum. This routine does an FFT, 360*n degree first order phase correction
+and then an IFFT to obtain the FID back. Now apodization can be done as usual.</td>
+</tr>
+
+<tr>
+<td>Shift data points</td>
+<td>Shifts the FID (or spectrum) by a certain number of points. The FID
+is kept at the same length by adding the same number of zeros to the end. A positive number will shift
+the FID left (n+1 -> n), a negative number right (n -> n+1).</td>
+</tr>
+
+<tr>
+<td>Swap whole echo</td>
+<td>Performs a data shift such that the maximum of a FID with an echo
+in it, will appear at the first point afterwards. All points before the maximum are added to the end
+of the FID. After this the FID can be apodized (see also paragraph 4.7, <a href="Processing.html#Apodizing">
+"Apodizing FID's"</a>).</td>
+</tr>
+
+<tr>
+<td>DC offset correction</td>
+<td>Performs an offset correction. A signal-free part of the FID
+is asked for after which the real and imaginary parts of the FID are corrected independently by 
+substracting the mean of the specified region.</td>
+</tr>
+
+<tr>
+<td>Solvent Suppression</td>
+<td>Performs a solvent deconvolution as was proposed by Marion,
+Ikura and Bax, JMR, 84, 425-430 (1989). Either a Gaussian, Sine-Bell or Rectangular window'
+function may be used with a width a (2*K + 1). The jump size M denotes which point to use for
+the extrapolation of the first and last K points.</td>
+</tr>
+
+<tr>
+<td>Set size</td>
+<td>Changes the size of the current spectrum. A size smaller than the current
+size will lead to cutting away the end of the spectrum, a bigger size will leed to zeros being added
+to the end of the spectrum.</td>
+</tr>
+
+<tr>
+<td>FT</td>
+<td>Performs a Fourier transform on the current FID. The type of Fourier transform
+is defined by the corresponding button in the main window (see paragraph 5.1,
+<a href="MainWindow.html#Look">"General appearance"</a>). For more information on the differences
+between the various modes see paragraph 4.8, <a href="Processing.html#FourierTransform">
+"Fourier transform"</a>.</td>
+</tr>
+
+<tr>
+<td>FFTshift</td>
+<td>Performs a FFTshift on the current spectrum, i.e. a shift of the zero-point
+of the spectrum to the center (see MATLAB documentation for more information on fftshift).</td>
+</tr>
+
+<tr>
+<td>Flip L/R</td>
+<td>Flips the current spectrum from left to right. Necessary in case the
+spectrum is flipped (different receiver rotation).</td>
+</tr>
+
+<tr>
+<td>Baseline correction</td>
+<td>Does a 1D baseline correction on the current spectrum (see 
+also paragraph 4.10, <a href="Processing.html#BaselineCorrection">"Baseline correction"</a>).</td>
+</tr>
+</table>
+</td></tr>
+
+
+
+
+
+<tr>
+<td>Additional Features</td>
+<td>
+<table border=yes>
+<tr>
+<td>Concatenate Matrix</td>
+<td>Allows concatenation of the current 1D spectrum into a longer 1D 
+or a 2D with all slices the same.</td>
+</tr>
+
+
+<tr>
+<td>Extract from 1D</td>
+<td>Extracts part of the current 1D spectrum and makes it the new 1D
+spectrum. The range that must be specified must be given in the unit of the axis vector. The new
+axis vector remains in the units of the original vector.</td>
+</tr>
+
+<tr>
+<td>Integrate</td>
+<td>Shows the integral of an area in the current 1D spectrum. Specify a region
+by clicking left and right of this region. Very basic.</td>
+</tr>
+
+<tr>
+<td>Inverse FT</td>
+<td>Performs the inverse Fourier transform to the current dimension of the 2D. The exact
+workings depend on the Fourier mode selected, and some of the possible Fourier modes do not allow inverse FT.
+A notice is given when this is the case.</td>
+</tr>
+
+<tr>
+<td>Linear prediction</td>
+<td>Performs a forward or backward linear prediction. Two methods for 
+linear prediction (back- and forward) are implemented in matNMR: LPSVD and ITMPM. They
+are described in the following paper: <b>Y.-Y. Lin, P. Hodgkinson, M. Ernst and A. Pines, JMR, 128, 
+30-41 (1997)</b>. Please refer to this paper for the explanation of the methods.<br>
+To properly predict points: Cut the FID such that all points that remain are good (so take away the 
+initial bad points or the noise at the end of the FID). Select the method that you want to use
+and specify the number of points that need to be predicted, the number of frequencies that are assumed 
+in the signal and the S/N-ratio. The ITMPM-method allows the algorithm to determine the number of 
+signals. For that choose either -1 or -2 (different methods).</td>
+</tr>
+
+<tr>
+<td>Noise filling</td>
+<td>This option changes the size of the FID bit instead of appending zeroes, Gaussian noise is appended.</td>
+</tr>
+
+<tr>
+<td>Regrid Spectrum</td>
+<td>Interpolates the current spectrum to a new axis. Different interpolation algorithms may be used to
+optimize for speed or quality.</td>
+</tr>
+
+<tr>
+<td>S/N</td>
+<td>Very basic routine for determining the signal to noise ratio of a spectrum. Asks
+for a peak-free region of the spectrum to calculate S/N as the maximum divided by the standard
+deviation of the noise.</td>
+</tr>
+</table>
+</td></tr>
+
+
+
+
+
+<tr>
+<td>Fitting</td>
+<td>
+<table border=yes>
+<tr>
+
+<tr>
+<td>CSA tensors MAS</td>
+<td>Fits a tensor to the MAS sideband intensities. For a
+complete discription of this routine see paragraph 5.5, <a href="MainWindow.html#SSAFit">"Fitting of CSA tensors from the MAS sideband manifold"</a>.</td>
+</tr>
+
+<tr>
+<td>CSA tensors Static</td>
+<td>Fits tensors to a static powder pattern. For a
+complete discription of this routine see paragraph 5.5, <a href="MainWindow.html#CSAFit">"Fitting of static CSA tensors"</a>.</td>
+</tr>
+
+<tr>
+<td>Diffusion Curves</td>
+<td>(Multi-)exponential fit of diffusion curves. For a
+complete discription of this routine see paragraph 5.5, <a href="MainWindow.html#DiffusionFit">"Fitting of Diffusion Curves"</a>.</td>
+</tr>
+
+<td>Peak Deconvolution</td>
+<td>Fits mixed Gaussian/Lorentzian oeaks to the current spectrum. To reduce the number 
+of data points that the peak-fitting routine has to take into account, first zoom into the region of interest.
+For a complete discription of this routine see paragraph 5.6, <a href="MainWindow.html#PeakFit">
+"Spectral Deconvolution"</a>).</td>
+</tr>
+
+<tr>
+<td>Quadrupolar Tensors</td>
+<td>Fits a quadrupolar tensor to a MAS spectrum. For a
+complete discription of this routine see paragraph 5.8, <a href="MainWindow.html#QuadFit">"Fitting of Quadrupolar Tensors under MAS"
+</a>).</td>
+</tr>
+
+<tr>
+<td>Relaxation Curves</td>
+<td>(Multi-)exponential fit of relaxation curves. For a
+complete discription of this routine see paragraph 5.8, <a href="MainWindow.html#T1Fit">"Fitting of Relaxation Curves"
+</a>).</td>
+</tr>
+
+
+</table>
+</td>
+</tr>
+</table></p>
+
+
+
+<a name="2DProcessing"></a>
+<h3>5.2.4 2D Processing</h3>
+
+<p>This menu deals with everything concerning working with 2D spectra:<br>
+<table border=yes align=center>
+<tr><th>Name</th><th>Function</th>
+</tr>
+
+
+<tr><td>Load 2D</td><td>Gets a new 2D spectrum. Axis vectors may be specified and also whether 
+the variable is an FID or a spectrum (see also button information in paragraph 5.1, 
+<a href="MainWindow.html#Look">"General appearance"</a>).</td></tr>
+
+<tr><td>Load 3D</td><td>Gets a new 3D spectrum (For more information on 3D support see
+paragraph 4.2, <a href="Processing.html#1D2DMode">"1D, 2D and 3D mode"</a>. 
+Axis vectors may be specified and also whether the variable is an FID or a spectrum 
+(see also button information in paragraph 5.1, <a href="MainWindow.html#Look">"General 
+appearance"</a>).</td></tr>
+
+<tr><td>Transpose</td><td>Transpose the current 2D spectrum. May be needed to convert spectra
+that were saved with different conventions than used by matNMR.</td></tr>
+
+<tr><td>Add Spectrum to Workspace</td><td>Saves the current 2D spectrum to the workspace. Depending on 
+whether the history and/or axis vector must be included a matNMR structure will be created (also
+see paragraph 3.5, <a href="matNMRMATLAB.html#Format">"matNMR format for spectra"</a>).</td></tr>
+
+<tr><td>Save Spectrum to Disk</td><td>As the previous function but saves the variable to disk. In case
+more than one variable names are given in the input window it will save the variables without doing
+anything with the current 2D spectrum!</td></tr>
+
+<tr><td>Convert Bruker qseq</td><td>The Bruker qseq acquisition mode is basically TPPI in 1D. This in
+principle gives a real vector but when loading a binary it the spectrum is assumed to be complex. 
+This function converts the FID into a real vector with all real and imaginary points concatenated and
+every second complex point inverted:<br>R I R I R I R I R I R I R I...<br>
+This function does not need to be used as the qseq mode for FT allows direct processing but is
+recommended. Direct processing in principal does not allow further manipulation (e.g. apodization 
+is ever so slightly wrong when applying it to the complex vector).</td></tr>
+
+<tr><td>Convert Bruker/Varian States</td><td>Converts the standard Bruker/Varian way of saving States
+spectra into the matNMR format (Chemagnetics format). For more information on the format see paragraph 4.8, 
+<a href="Processing.html#FourierTransform">"Fourier transform"</a>.</td></tr>
+
+<tr><td>Echo / Anti-Echo to States</td><td>Converts an echo and an anti-echo experiment into a States-type
+experiment. The matrix must be in the same format as a States experiment. For more information on the 
+format see paragraph 4.8, <a href="Processing.html#FourierTransform">"Fourier transform"</a>.</td></tr>
+
+<tr><td>Start States processing</td><td>Splits the States FID into its proper hypercomplex parts
+and sets all necessary flags for States processing (see also paragraph 4.8, 
+<a href="Processing.html#FourierTransform">"Fourier transform"</a>).</td></tr>
+
+
+
+
+
+
+<tr><td>
+Full matrix manipulations</td><td>
+<table border=yes>
+<tr><td>Remove Bruker digital filter</td><td>Removes the effects of the Bruker digital filter from
+all rows/columns of the current 2D FID (depending on the current dimension). This filter performs a 
+time-shift on the FID of n points which can be corrected by giving a 360*n degree first order phase 
+correction to the spectrum. This routine does an FFT, 360*n degree first order phase correction and 
+then an IFFT to obtain the FID back. Now apodization can be done as usual.</td></tr>
+
+<tr><td>Shift data points</td><td>Shifts all rows/columns of the current 2D FID (depending on the 
+current dimension) by a certain number of points. Each row/column is kept at the same length by adding 
+the same number of zeros to the end. A positive number will shift the FID left (n+1 -> n), a negative 
+number right (n -> n+1).</td></tr>
+
+<tr><td>Swap whole echo</td><td>Performs a data shift on all rows/columns of the current 2D FID 
+(depending on the current dimension) such that the maximum of a FID with an echo in it, will appear at 
+the first point afterwards. All points before the maximum are added to the end of the FID. After this 
+the FID can be apodized (see also paragraph 4.7, <a href="Processing.html#Apodizing">
+"Apodizing FID's"</a>).</td></tr>
+
+<tr><td>DC offset correction</td><td>Performs an offset correction on all rows/columns of the current 
+2D FID (depending on the current dimension). A signal-free part of the FID is asked for after which 
+the real and imaginary parts of each row/column are corrected independently by substracting the mean 
+of the specified region in each row/column.</td></tr>
+
+<tr><td>Solvent Suppression</td><td>Performs a solvent deconvolution as was proposed by Marion,
+Ikura and Bax, JMR, 84, 425-430 (1989). Either a Gaussian, Sine-Bell or Rectangular window'
+function may be used with a width a (2*K + 1). The jump size M denotes which point to use for
+the extrapolation of the first and last K points.</td></tr>
+
+<tr><td>Apodize</td><td>Performs the currently selected apodization mode on all rows/columns of the 
+current 2D FID (depending on the current dimension). See paragraph 4.7, <a href="Processing.html#Apodizing">
+"Apodizing FID's"</a> for more information on apodizing.</td></tr>
+
+<tr><td>Set size</td><td>Changes the size of the current 2D spectrum. A size smaller in any dimension
+than the current size will lead to cutting away the end of the dimension, a bigger size will leed to 
+zeros being added to the end of the dimension.</td></tr>
+
+<tr><td>Zero part of 2D</td><td>Sets entire rows and columns of the current 2D matrix to 0. NOTE: input
+of the ranges is in points! For example: '1:20'. Leaving an input line empty means not zeroing
+any rows or columns.</td></tr>
+
+<tr><td>FT</td><td>Performs a Fourier transform on all rows/columns of the current 2D FID (depending 
+on the current dimension). The type of Fourier transform is defined by the corresponding button in 
+the main window (see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>). For more 
+information on the differences between the various modes see paragraph 4.8, 
+<a href="Processing.html#FourierTransform">"Fourier transform"</a>.</td></tr>
+
+<tr><td>FFTshift</td><td>Performs a FFTshift on all rows/columns of the current 2D FID (depending 
+on the current dimension), i.e. a shift of the zero-point of the row/columns to the center (see 
+MATLAB documentation for more information on fftshift).</td></tr>
+
+<tr><td>Flip L/R</td><td>Flips all rows/columns of the current 2D spectrum (depending on the current 
+dimension) from left to right. Necessary in case the spectrum is flipped (different receiver rotation).</td></tr>
+
+<tr><td>Set Phase</td><td>Performs the currently selected phase correction on all rows/columns of the 
+current 2D FID (depending on the current dimension). See paragraph 4.9, 
+<a href="Processing.html#Phasing">"Phasing spectra"</a> for more information on phase correction.</td></tr>
+
+<tr><td>Baseline correction</td><td>Does a 2D baseline correction on the current spectrum (see 
+also paragraph 4.10, <a href="Processing.html#BaselineCorrection">"Baseline correction"</a>
+).</td></tr>
+</table>
+</td></tr>
+
+
+
+
+<tr><td>Single Slice Manipulations</td><td>This submenu allows the manipulations of the current
+row/column of the current 2D, without the rest of the matrix being affected. Look at the entries
+for the regular functions to see what they do.</td></tr>
+
+
+
+<tr><td>
+Additional Features</td><td>
+<table border=yes>
+<tr><td>Concatenate Matrix</td><td>Allows concatenation of the current 2D spectrum into a bigger
+2D spectrum. Concatenation can be done in both directions.</td></tr>
+
+<tr><td>Extract from 2D</td><td>Extracts part of the current 2D spectrum and makes it the new 2D
+spectrum. The range that must be specified must be given in the unit of the axis vector. The new
+axis vectors remain in the units of the original vectors.</td></tr>
+
+<tr><td>Integrate Fixed range</td><td>Calculates the integral of a part of a spectrum by selecting a region of the
+current 2D spectrum (in units of the axis vectors) and adding all intensities. The output is a variable in the 
+workspace with the intensities, the axis in the current dimension and the position of the maximum signal in units 
+of its original axis.</td></tr>
+
+<tr><td>Integrate around Max</td><td>Shows the integral of an area in the current 1D spectrum. 
+This routine searches in each slice in the 2D for the maximum signal 
+in a user-specified range and integrates with a user-specified range around that maximum. This allows integration 
+of peaks with variable positions and possibly overlapping other peaks. The output is a variable in the workspace 
+with the intensities, the axis in the current dimension and the position of the maximum signal in units of its 
+original axis. </td></tr>
+
+<tr><td>Inverse FT</td<td>Performs the inverse Fourier transform to the current dimension of the 2D. The exact
+workings depend on the Fourier mode selected, and some of the possible Fourier modes do not allow inverse FT.
+A notice is given when this is the case.</td></tr>
+
+<tr><td>Linear prediction</td><td>Performs a forward or backward linear prediction on all rows/columns 
+of the current 2D spectrum (depending on the current dimension). Two methods for 
+linear prediction (back- and forward) are implemented in matNMR: LPSVD and ITMPM. They
+are described in the following paper: <b>Y.-Y. Lin, P. Hodgkinson, M. Ernst and A. Pines, JMR, 128, 
+30-41 (1997)</b>. Please refer to this paper for the explanation of the methods.<br>
+To properly predict points: Cut the FID such that all points that remain are good (so take away the 
+initial bad points or the noise at the end of the FID). Select the method that you want to use
+and specify the number of points that need to be predicted, the number of frequencies that are assumed 
+in the signal and the S/N-ratio. The ITMPM-method allows the algorithm to determine the number of 
+signals. For that choose either -1 or -2 (different methods).</td></tr>
+
+<tr>
+<td>Noise filling</td>
+<td>This option changes the size of the FID bit instead of appending zeroes, Gaussian noise is appended.</td>
+</tr>
+
+<tr>
+<td>Regrid Spectrum</td>
+<td>Interpolates the current spectrum to a new axis. Different interpolation algorithms may be used to
+optimize for speed or quality.</td>
+</tr>
+
+<tr><td>Set integral</td><td>Sets the integral of the spectrum by selecting a region of the
+current 2D spectrum (in units of the axis vectors) and assigning a value to this.</td></tr>
+
+<tr><td>Shearing transformation</td><td>Performs a shearing transformation on the current 2D spectrum
+(i.e. frequency domain shearing) or FID (i.e. time domain shearing). In either case the shearing
+factor (as determined by the NMR experiment) and the spectral widths in both TD1 and TD2 must be
+specified in the input window. For the frequency domain version also the direction of shearing can
+be specified (vertical or horizontal). In general a vertical shearing is needed for NMR spectra
+but the horizontal shearing may have a general use. The frequency domain shearing uses a spline
+interpolation scheme, i.e. this is not as accurate as the time domain shearing, which is just
+a TD1-dependent first order phase correction to the matrix after FT in TD2 is done.<br>
+<b>NOTE:</b>When shearing in frequency domain the imaginary parts are set to zero, i.e. no phase
+correction will be possible afterwards!
+</td></tr>
+
+<tr><td>Symmetrize</td><td>Symmetrizes the current 2D spectrum along the diagonal either by
+averaging the intensities on both sides of the diagonal or by taking the highest value of the two
+sides. Note that the spectrum must be square to be able to do this.</td></tr>
+</table>
+</td></tr>
+
+
+
+
+
+
+<tr><td>
+Fitting</td><td>
+<table border=yes>
+<tr><td>Peak deconvolution</td><td>Performs a (absorptive) peak fit on peaks in the current dimension of the 
+2D spectrum. To reduce the number of data points that the peak-fitting routine has to take into
+account, first zoom into the region of interest. The difference with the "Peak fitting" entry
+in the "1D Processing" menu is that now the full 2D matrix is supplied to the peak fitting
+routine which allows fitting series of 1D spectra consecutively. For a complete discription of this 
+routine see paragraph 5.6, <a href="MainWindow.html#PeakFit">"Peak fitting"</a>).</td></tr>
+</table>
+</td></tr>
+
+
+
+
+
+<tr><td>
+Various Views</td><td>
+<table border=yes>
+<tr><td>Diagonal:</td><td> Extracts the diagonal of the spectrum. The axis vector belonging to the resulting
+spectrum is in points.</td></tr>
+<tr><td>Anti-diagonal:</td><td> Extracts the anti-diagonal of the spectrum. The axis vector belonging to the 
+resulting spectrum is in points.</td></tr>
+<tr><td>Sum TD1:</td><td> Extracts the sum over all columns of the spectrum. The range of columns to take into
+account for this function can be specified in the unit of the axis. The axis vector belonging to the resulting
+spectrum is the same as the original axis.</td></tr>
+<tr><td>Sum TD2:</td><td> Extracts the sum over all rows of the spectrum. The range of rows to take into
+account for this function can be specified in the unit of the axis. The axis vector belonging to the resulting
+spectrum is the same as the original axis.</td></tr>
+<tr><td>Skyline:</td><td> Extracts a skyline projection of the 2D spectrum at a specified angle. For a direct
+view of Td2 set the angle to 0, for a direct view of TD1 set it to 90. Currently only the angles
+of 45 and 135 degrees are allowed besides 0 and 90. The axis vector belonging to the resulting
+spectrum is equal to the original vector for angles of 0 and 90, else in points.</td></tr>
+<tr><td>Horizontal Stack plot:</td><td> Creates a horizontal stack plot from all rows/columns of the current 2D matrix
+(depending on the current dimension). The zoom limits of the current view are taken into account
+when creating the 1D stack plot. <br>NOTE: this is a special plot type and will not persist when pushing the
+"reset figure" button.</td></tr>
+<tr><td>Vertical Stack plot:</td><td> Creates a vertical stack plot from all rows/columns of the current 2D matrix
+(depending on the current dimension). The zoom limits of the current view are taken into account
+when creating the stack plot. Also, the vertical displacement factor may be changed to create the
+optimum plot. <br>NOTE: this is a special plot type and will not persist when pushing the
+"reset figure" button.</td></tr>
+</table>
+</td></tr>
+
+
+
+<tr><td>2D/3D Viewer</td><td>Shortcut to the 2D/3D Viewer window. The current name of the input
+variable for this routine is set to QFT1, i.e. the current 2D matrix in the main window.</td></tr>
+</table>
+
+
+
+<a name="PlotManipulations"></a>
+<h3>5.2.5 Plot manipulations</h3>
+
+<p>This menu contains all kinds of functions to change the appearance of the current plot.<br>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr>
+<td>Legend</td>
+<td>This routine provides a means of adding legends to a plot. A window will
+appear looking like:<br><br><center><IMG SRC="../pics/Legend.jpg" ALT="legend"></center><br> from which the 
+labels, the text properties and all individual line properties can be specified. The routine checks 
+the number of lines currently in the plot automatically and provides sufficient input boxes.
+Line properties can be changed separately or in groups: select the desired lines by clicking on
+the check buttons in front of each line.<br>
+If there already is a legend present in the plot it is best to remove it first before adding a
+new one as it may be that the routine does not find the previous legend properly.The resulting 
+legend will be plotted on top of the existing plot in the main window. It can be moved however
+by keeping the left mouse button pressed over the legend and then moving the mouse.</td>
+</tr>
+
+<tr>
+<td><a name="Ruler_Xaxis"></a>
+Ruler x-axis</td>
+<td>
+<p>This submenu provides a means of changing the axis to a plot. For
+more information see also paragraph 3.4, <a href="matNMRMATLAB.html#NMR">
+"Where is the NMR"</a></p>
+
+<table border=yes>
+<tr>
+<td>Use Default Axis</td>
+<td>Switches between the default axis and a fixed axis. A check flag
+shows when the default axis is on. The unit of the axis is
+defined by the current settings and whether the current spectrum is an FID or a spectrum.</td>
+</tr>
+
+<tr>
+<td>Reset Default Axis</td>
+<td>Resets the values for spectral reference, which makes the center
+of the spectrum 0 ppm/Hz or kHz.</td>
+</tr>
+
+<tr>
+<td>Change Default</td>
+<td>Changes the current settings of the units for the default axis
+for either FID or spectrum mode.</td>
+</tr>
+
+<tr>
+<td>External Reference</td>
+<td><table border=yes>
+<tr>
+<th>Name</th>
+<th>Features to manipulate the spectral referencing through external data.</th>
+</tr>
+
+<tr>
+<td>Apply External Reference</td>
+<td>Allows the application of a spectral reference, as stored
+in the workspace either as a spectrum or as a reference variable, to the current spectrum. For
+2D spectra the reference values may be entered differently for both dimensions by entering two
+values for each parameter. If only one value is specified then both dimensions are taken to be the
+same.
+</td>
+</tr>
+
+<tr>
+<td>Define External Reference</td>
+<td>Allows manual definition of a spectral reference.
+For 2D spectra the reference values may be entered differently for both dimensions by entering two
+values for each parameter. If only one value is specified then both dimensions are taken to be the
+same.</td>
+</tr>
+
+<tr>
+<td>Import External Reference</td>
+<td>Allows importing of a spectral reference from an
+external dataset. This requires the default axis mode is on AND that all spectral parameters for
+the current dataset have been set correctly. Especially the sign of gamma (magnetogyric ratio)
+is important as this will determine the sign of a frequency axis. NOTE that both XWinNMR and
+Spinsight do not handle this correctly and that the sign may therefore be different.<br>
+Currently this only works for the XWinNMR, VNMR and Spinsight formats but should be implemented for
+other formats as well at some point (kick me to speed up this process!)</td>
+</tr>
+</table></td>
+</tr>
+
+<tr>
+<td>Other</td>
+<td>The rest of the menu allows direct
+access to axes in time, gradient, points or a user-defined vector, but also to the menu-based
+option "ruler X-axis". A window will
+appear looking like:<br><br><center><IMG SRC="../pics/1Drulerxaxis.jpg" ALT="ruler X-axis"></center><br> from which 
+the type of axis vector (PPM, kHz, Hz, time, gradient, points, user-defined) can be chosen. The spectral width
+must be specified for PPM and Hz axes and for a PPM axis also the carrier frequency. For an
+axis in Hz also the sign of the gyromagnetic ratio of the nucleus that corresponds to the current
+spectrum must be specified.
+<br><b>NOTE: Gradient axes are defined in T/m and NOT in G/cm. This means you may have to divide
+the gradient values from your software by 100 to obtain the proper values!!</b>
+<br>Pressing the "Continue" button proceeds the routine and one is asked for a reference value. After 
+that the reference peak can be specified by using the crosshair mouse pounter and clicking on the 
+desired reference peak (This may seem strange but is necessary because of a MATLAB bug. Specifying the
+reference peak before asking its value leads to a mess with the main and input window). If a name is
+given for the new axis vector then it will be saved in the workspace after calculating it.</td>
+</tr>
+</table>
+</td>
+</tr>
+
+
+<tr>
+<td>Title/axis labels</td>
+<td>This routine provides a means of changing the title and axes labels
+of a plot. A window will appear looking like:<br><br><center><IMG SRC="../pics/1DTitleAxisLabels.jpg" ALT="titles and labels"></center><br>
+Pressing the "Apply" button will update all labels immediately. The "Refresh" is used for updating
+the text labels currently written in this window to the labels in the current plot (useful when
+having this window opened continously). The "full width" button expands the window to the full
+width of the screen to give wider edit buttons. This is useful for long texts as they can become
+inaccessible because the scrolling doesn't work perfectly.</td>
+</tr>
+
+
+<tr><td>Plotting Functions</td><td>This submenu currently contains 
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr>
+<td>1D Bar Plot</td>
+<td>a function to create a 1D bar plot from the current view. The current 
+axis is taken and the user may select the various properties of the bars from the input window. 
+<br>NOTE: this is a special plot type and will not persist when pushing the "reset figure" button.</td>
+</tr>
+
+<tr>
+<td>Errorbar Plot</td>
+<td>a function to create a errorbar plot from the current view. The current 
+axis is taken and the user must provide a vector with standard deviations (or similar). 
+<br>NOTE: this is a special plot type and will not persist when pushing the "reset figure" button.</td>
+</tr>
+
+<tr>
+<td>Show Sidebands</td>
+<td>a simple function to indicate MAS sidebands in the spectrum. This
+requires specifying the central line and the MAS frequency, and various parameters that change the
+appearance of the markers. The markers can be removed by pressing the "reset figure" button.</td>
+</tr>
+</table>
+
+</td></tr>
+
+
+<tr>
+<td>Various axis properties</td>
+<td>The rest of this menu consists of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td>
+</tr>
+
+</table>
+
+
+
+<a name="HistoryMacro"></a><h3>
+5.2.6 History/Macro</h3>
+
+<p>This menu deals with the processing history and working with macro's (see also
+paragraphs 4.3, <a href="Processing.html#History">"Using the processing history"</a> and 4.4, 
+<a href="Processing.html#Macros">"Using macro's"</a>) : <br>
+
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Show History</td><td>This routine shows the processing history for the current spectrum
+(either 1D or 2D). A window will appear looking like:<br><br><center><IMG SRC="../pics/ShowHistory.jpg" ALT="history">
+</center><br>
+The "Print" button allows to print the history to a printer or to disk. A separate window will be
+opened in which the history is plotted as graphical text (Unfortunatelt this is necessary because it is 
+much more difficult to print text in UI-controls than graphical text in MATLAB).
+</td></tr>
+
+
+<tr><td>Connect history to FID</td><td>This routine connects the current processing history macro to
+a FID variable in the workspace. If the variable is not a matNMR structure yet (see also paragraph 3.5, 
+<a href="matNMRMATLAB.html#Format">"matNMR format for spectra"</a>) it will make a structure out of it.
+If the variable already is a matNMR structure then only the HistoryMacro field will be changed.
+</td></tr>
+
+
+<tr><td>Save history as macro</td><td>This routine saves the current processing history macro
+as a variable in the workspace. It may then at any time bu run as a macro.
+</td></tr>
+
+
+<tr><td>Convert history macro to script</td><td>This routine converts the current processing history macro
+to an independent processing script on disk. The script can then be applied to any dataset. The script contains
+many comments as to what the syntax of the matNMR processing scripts is. This option serves as an alternative to 
+storing the processing history with the FID. (See also Chapter 8, <a href="Offline.html">Script-based processing with matNMR</a>) 
+</td></tr>
+
+
+<tr><td>Reprocess from history</td><td>This routine reprocesses the processing history macro
+that is connected to the current FID. Note that this only works when done directly after
+loading a FID into matNMR because else the history macro will be overwritten by the new processing
+steps. (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+
+<tr>
+<td>Reprocess from history stepwise</td>
+<td>Same as above but now the reprocessing can be done
+stepwise. A window is opened in which the information of the current and the four next steps is
+displayed.<br><br><center><IMG SRC="../pics/MacroStepwise.jpg" ALT="macro stepwise"></center><br>
+Steps can be performed and skipped. Furthermore the "perform all steps" button performs all next 
+steps without confirmation. The "New Macro" button loads a new macro and displays its
+processing steps. (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+
+<tr><td>Clear History</td><td>Clears the current processing history, i.e. the QmatNMR.History variable.</td></tr>
+
+
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+
+<tr><td>Execute user-command</td><td>This function is used to enter user-commands to a 
+macro (and thus also to the processing history macro!). An input window will appear to ask for the
+command. The resulting string is evaluted using the MATLAB <i>eval</i> command (see the MATLAB documentation
+for more information about eval) and stored in the history macro in a numeric format.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+
+</table>
+
+
+
+<a name="PrintingMenu"></a>
+<h3>5.2.7 Create Output</h3>
+
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+
+
+
+
+
+<a name="Options"></a><h3>
+5.2.8 Options</h3>
+
+<p>This menu allows changing all default settings of matNMR as is described in detail in
+paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR (options)"</a>.</p>
+
+
+
+<a name="Help"></a><h3>
+5.2.9 Help</h3>
+
+<p>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB <i>web</i> and <i>docopt</i> commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</p>
+
+
+
+<a name="Goodies"></a><h3>
+5.2.10 Goodies</h3>
+
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>Undo</td><td>This function undoes the last processing step which may be 1D or 2D mode. There is also an
+undo button in the main window which does exactly the same. By pressing CTRL-Z in the window
+the function may also be called. <br>
+The total number of processing steps that may be undone can be set in the 
+<a href="Installation.html#GeneralOptions"> general options menu</a>. 
+Beware though of the extra memory usage especially for the 2D mode!
+A full copy of the hypercomplex matrices is stored for each step which for a 1024x1024 spectrum
+already means 32Mb per undo step!</td>
+ 
+
+<tr><td>Clear Functions</td><td>
+this performs the MATLAB <i>clear functions</i> command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB <i>clear</i> command). Furthermore the mouse 
+pointer is set to an arrow head.</td>
+ 
+
+<tr><td>Reset after Error</td><td>
+this performs almost the same as the clear functions command, but also recreates the axis. This is
+sometimes useful when the view is distorted after an error has appeared (typically a MATLAB error).</td>
+ 
+
+<tr><td>Select matNMR Distribution</td><td>
+Allows switching of matNMR distribution. This is only useful if you have multiple versions of matNMR stored
+on disk and you wish to use another version than the one you are currently using. The path variable is
+changed in order to make sure the new distribution is used exclusively and matNMR is restarted. No safety
+is built in so information may be lost. Aftert restarting Matlab, the path variable will be the same as
+usual</td>
+</table></p>
+
+
+
+
+
+
+
+<a name="SSAFit"></a><h2>
+5.3 Fitting of CSA tensors from the MAS sideband manifold</h2>
+
+<a name="SSAFitLook"></a><h3>
+5.3.1 General appearance</h3>
+
+<p>MatNMR offers a fitting routine for magic-angle spinning sideband intensities from 
+the "1D Processing" entry in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/SSAFitter.jpg" ALT="SSA fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#SSAFitFunctions">paragraph 5.3.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#SSAFitMenubar">
+paragraph 5.3.3</a> below.</p>
+
+<p>Upon starting the routine the current 1D spectrum (main window) is taken and plotted. It is assumed
+that the current spectrum is a set of sideband integrals and that the axis ruler has been changed to 
+indicate the sideband number deviation from the centerband (=0).
+Sideband number -3 means that the frequency of the peak is at omega_0 - 3*omega_r. This is independent
+of the sign of the gyromagnetic ratio!</p>
+
+<p>To best way to obtain the sideband amplitudes is to use the deconvolution routine, <a href="MainWindow.html#PeakFit">
+paragraph 5.6</a> to fit the lineshapes of the individual sidebands, and take the values for the
+integrals and use them for the fit of the sideband amplitudes. This is more accurate than taking only the intensity
+of the line at a multiple of the spinning speed, since spinning speed instabilities will hardly affect
+the centerband but the increasingly affect the line for higher sideband numbers. The integral of the line 
+should not be affected. After fitting the 1D spectrum, the results are stored in a structure and one of the 
+fields is called "Integrals". These contain the values for the peaks. Add the correct axis for the sideband 
+numbers, taking care that the sign of the gyromagnetic ratio is correct. Otherwise the sign of the anisotropy
+delta will invert.</p>
+
+<p>To fit the sideband manifold, the Larmor frequency must be entered in MHz and the magic-angle spinning
+frequency in kHz. The isotropic shift in ppm may also be entered if tensor values sigma_11, sigma_22 and
+sigma_33 are required. The routine itself only fits the anisotropy "delta" and the asymmetry "eta", and
+an intensity. The sideband manifold is calculated using a gammaCOMPUTE-based algorithm which uses an
+analytical expression for the frequency of a crystallite. Through powder averaging the complete sideband
+manifold can be calculated.</p>
+
+<p>As holds for all non-linear fits a good initial estimate of the parameters is required for an efficient
+fit convergence. To facilitate finding such an estimate the "Simulate" button may be used.
+After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kept constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+
+<p>Two algorithms may be used for fitting: SIMPLEX and a gradient algorithm. Typically the SIMPLEX
+algorithm is used for coarse optimization and is followed by a gradient minimization to finish off the
+analysis. The quality of the simulation of the sideband manifold can be determined for both algorithms
+separately. The simulation uses a gammaCOMPUTE-based calculation with a two-angle ZCW scheme for angles
+alpha and beta, and a separate number of angles gamma, which can be selected in the appropriate UIcontrol.
+By choosing a higher number of powder-averaging angles the quality of the simulation will
+improve. By default 610 powder-averaging angles are selected for SIMPLEX and none for the gradient algorithm.
+The value of 610 angles, combined with 50 values for angle gamma seems to provide a stable and fast
+result for a wide number of conditions (say up to 10 sidebands at least). When more sidebands are required
+it is important to test the stability of the fit by increasing the number of averaging points.</p>
+
+<p>When the fit has finished by default the results are written into the variable QSSAFitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kept in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+- delta<br>
+- eta<br>
+- intensity<br>
+- Error<br>
+- Carrier<br>
+- Spinning Speed<br>
+- isotropic shift<br>
+
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", "Data", "Axis" and "Error".</p>
+
+
+
+<a name="SSAFitFunctions"></a><h3>
+5.3.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>Zoom</td><td>Switches the zoom function on or off.</td></tr>
+
+<tr><td>Verbose</td><td>Determines the level of output generated by the fitting algorithms. This can
+either be never, after every iteration or only after finishing the fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Update display</td><td>Defines whether the plot should be updated after each iteration or
+only after the fit has finished.</td></tr>
+
+<tr><td>Noise level</td><td>In order for the calculated error to be a chi^2 the standard deviation
+of the noise must be entered here. This can be taken from the 1D spectrum. A proper value for the
+noise level should ideally result in an error of 1 for a perfect fit, i.e. the residual is nothing
+more than the standard deviation of the noise then.</td></tr>
+
+<tr><td>SIMPLEX quality</td><td>Number of powder-averaging points for the SIMPLEX algorithm. A two-angle
+ZCW grid is used during the simulation. Selecting "OFF" will result in the algorithm not being used.
+Increase this value for a more accurate result.</td></tr>
+
+<tr><td>Gradient quality</td><td>Number of powder-averaging points for the gradient algorithm. A two-angle
+ZCW grid is used during the simulation. Selecting "OFF" will result in the algorithm not being used.
+Increase this value for a more accurate result.</td></tr>
+
+<tr><td># gamma angles</td><td>Defines the number of angles gamma for the powder averaging. This should be
+larger than the maximum sideband number that needs to be extracted. 50 seems to be a good value for most
+practical cases (up to +- 10 sidebands) as it results in a stable simulation. 
+Increase this value for a more accurate result.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed as the parameter values
+are put into the plot as white text. The resulting plot can be rather ugly as sometimes the
+text is right on top of the fitted spectrum.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D spectrum from the main window into the
+fitting routine.</td></tr>
+
+<tr><td>Simulate</td><td>Performs a simulation of a sideband manifold based on the parameters given in the
+UIcontrols. This allows finding a good initial estimate of the parameters, which is vital for any
+non-linear fitting algorithm.</td></tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Carrier</td><td>Carrier frequency of the spectrum from which the sidebands were taken. This value
+is not fitted and should be taken over from the main window.</td></tr>
+
+<tr><td>Spinning speed</td><td>The spinning frequency for the spectrum from which the sidebands were
+taken. This is not a fit parameter.</td></tr>
+
+<tr><td>Sigma_iso</td><td>The isotropic shift in ppm. This is not a fit parameter and is only needed to
+calculate the principal components sigma_11, sigma_22 and sigma_33.</td></tr>
+
+<tr><td>delta</td><td>The anisotropy of the fitted CSA tensor in ppm.</td></tr>
+
+<tr><td>eta</td><td>The asymmetry of the fitted CSA tensor.</td></tr>
+
+<tr><td>Intensity</td><td>The intensity is merely a scaling factor.</td></tr>
+
+</table>
+
+
+
+<a name="SSAFitMenubar"></a><h3>
+5.3.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QSSAFitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.3.1, <a href="MainWindow.html#SSAFitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QSSAFitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically.
+Please see paragraph 5.3.1, 
+<a href="MainWindow.html#SSAFitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+<a name="CSAFit"></a><h2>
+5.4 Fitting of CSA tensors from static powder patterns</h2>
+
+<a name="CSAFitLook"></a><h3>
+5.4.1 General appearance</h3>
+
+<p>MatNMR offers a fitting routine for CSA tensors from static powder spectra which can be
+accessed from the "1D Processing" entry in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/CSAFitter.jpg" ALT="CSA fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#CSAFitFunctions">paragraph 5.4.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#CSAFitMenubar">
+paragraph 5.4.3</a> below.</p>
+
+<p>Upon starting the routine the current 1D spectrum (main window) is taken and plotted. It is assumed
+that the unit of the axis has been set to ppm.</p>
+
+<p>To fit the powder pattern only three principal components are required, an intensity factor and the
+degree of linebroadening. The routine then calculates the spectrum using the analytical lineshape determined
+by Bloembergen (1949).</p>
+
+<p>As holds for all non-linear fits a good initial estimate of the parameters is required for an efficient
+fit convergence. To facilitate finding such an estimate the "Simulate" button may be used.
+After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kept constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+
+<p>Two algorithms may be used for fitting: SIMPLEX and a gradient algorithm. Typically the SIMPLEX
+algorithm is used for coarse optimization and is followed by a gradient minimization to finish off the
+analysis.</p>
+
+<p>When the fit has finished by default the results are written into the variable QCSAFitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kept in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;- for each line:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- sigma11<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- sigma22<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- sigma33<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Gaussian LB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lorentzian LB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Intensity<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- background<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- slope<br><br>
+
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", "Data", "Axis" and "Error".</p>
+
+
+
+<a name="CSAFitFunctions"></a><h3>
+5.4.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>Zoom</td><td>Switches the zoom function on or off.</td></tr>
+
+<tr><td>Verbose</td><td>Determines the level of output generated by the fitting algorithms. This can
+either be never, after every iteration or only after finishing the fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Update display</td><td>Defines whether the plot should be updated after each iteration or
+only after the fit has finished.</td></tr>
+
+<tr><td>Noise level</td><td>In order for the calculated error to be a chi^2 the standard deviation
+of the noise must be entered here. This can be taken from the 1D spectrum. A proper value for the
+noise level should ideally result in an error of 1 for a perfect fit, i.e. the residual is nothing
+more than the standard deviation of the noise then.</td></tr>
+
+<tr><td>SIMPLEX algorithm</td><td>Selects whether the SIMPLEX algorithm should be used for the fit.</td></tr>
+
+<tr><td>Gradient algorithm</td><td>Selects whether the Gradient algorithm should be used for the fit.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed as the parameter values
+are put into the plot as white text. The resulting plot can be rather ugly as sometimes the
+text is right on top of the fitted spectrum.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D spectrum from the main window into the
+fitting routine.</td></tr>
+
+<tr><td>Simulate</td><td>Performs a simulation of a sideband manifold based on the parameters given in the
+UIcontrols. This allows finding a good initial estimate of the parameters, which is vital for any
+non-linear fitting algorithm.</td></tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Background</td><td>A constant baseline offset can be fitted to the spectrum.</td></tr>
+
+<tr><td>Slope</td><td>A linearly-sloping baseline offset can be fitted to the spectrum.</td></tr>
+
+<tr><td>Symm?</td><td>A tensor can be forced to be symmetric causing two tensor components to be
+equal.</td></tr>
+
+<tr><td>Sigma11</td><td>One of the three tensor components that are fitted.</td></tr>
+
+<tr><td>Sigma22</td><td>One of the three tensor components that are fitted.</td></tr>
+
+<tr><td>Sigma33</td><td>One of the three tensor components that are fitted.</td></tr>
+
+<tr><td>Gaussian LB</td><td>Degree of Gausiaan linebroadening (typically indicative of heterogeneous
+broadening).</td></tr>
+
+<tr><td>Lorentzian LB</td><td>Degree of Lorentzian linebroadening.</td></tr>
+
+<tr><td>Intensity</td><td>The intensity is merely a scaling factor.</td></tr>
+
+</table>
+
+
+
+<a name="CSAFitMenubar"></a><h3>
+5.4.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QCSAFitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.4.1, <a href="MainWindow.html#CSAFitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QCSAFitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically. Please see paragraph 5.4.1, 
+<a href="MainWindow.html#CSAFitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+<a name="DiffusionFit"></a><h2>
+5.5 Diffusion curve fitting</h2>
+
+<a name="DiffusionFitLook"></a><h3>
+5.5.1 General appearance</h3>
+
+<p>MatNMR offers a basic isotropic pulsed-field gradient (PFG) curve fitting routine from 
+the "1D Processing" entry in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/DiffusionFitter.jpg" ALT="Diffusion fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#DiffusionFitFunctions">paragraph 5.5.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#DiffusionFitMenubar">
+paragraph 5.5.3</a> below.</p>
+<p>Upon starting the routine the current 1D spectrum (main window) is taken and plotted. It is assumed
+that the axis ruler has been changed to a gradient axis, see <a href="MainWindow#Ruler_Xaxis">paragraph
+5.2.5</a>. 
+<br><b>NOTE: Gradient axes are defined in T/m and NOT in G/cm. This means you may have to divide
+the gradient values from your software by 100 to obtain the proper values!!</b>
+<br>For a more convenient view on exponentials the vertical axis is plotted on a logarithmic scale. 
+This can easily 
+be changed using the "scaling types" item in the "plot manipulations" menu on the menubar.</p>
+<p>To fit a (multi-)exponential diffusion curve one first has to provide proper values for the three
+constants: the gyromagnetic ratio, the gradient spacing and the gradient duration. By pushing the
+"Def. Pars." button an input window will be shown where the values can be given.</p>
+<p>The next step is to make an initial guess for all exponential
+functions that need to be fitted to it. This can be done by typing the coefficient and the diffusion 
+constant (D) for each fraction by hand into the corresponding UI-controls in the window. Also
+the overall amplitude and a constant may be defined. The routine will include a fraction into the fit
+if a coefficient value is specified. Note that all parameters are given in the unit of the
+axis vector belonging to the current 1D spectrum. This means that the axis vector has to be defined
+before starting the peak-fitting routine! A total of 4 exponentials can be fitted simultaneously.</p>
+<p>After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kept constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+<p>When the fit has finished by default the results are written into the variable QDiffFitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kept in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+- nr of iterations<br>
+- chi2 for this column<br>
+- fit parameters :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- for each exponential:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Coefficient<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Diffusion constant (D)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- constant<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- amplitude<br><br>
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", "Data", "Axis" and "Error".</p>
+<p>Last, in case the initial parameters are very far off the "Simplex prefit" check button
+may be activated. This makes matNMR use a SIMPLEX algorithm first before the gradient
+algorithm. By default this option is active.</p>
+
+
+
+<a name="DiffusionFitFunctions"></a><h3>
+5.5.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>log plot</td><td>Switches between a linear and a logarithmic y-axis.</td></tr>
+
+<tr><td>Def. Pars.</td><td>Allows entering the gyromagnetic ratio, the gradient spacing and
+the gradient duration and optionally the length of the delay used in a bipolar gradient experiment
+to allow for the switching of the gradients, 
+all of which are needed for the fit. An input window will appear in which these
+parameters can be entered.<br>
+Alternatively, if the data have been recorded on a Bruker spectrometer using the <i><b>diff</b></i>
+script provided for setting up diffusion experiments, instead of typing the values for the
+gradient spacing and the gradient duration one may select "READ Bruker" in the input
+window. Gamma still needs to be entered by hand though!
+<br><b>NOTE that this only works from XWinNMR 3.0 since before 3.0 the <i><b>diff</b></i> script 
+was different. Also, it may mean that this will change at some point.</b><br>
+MatNMR will then ask for the corresponding "acqus" file for the data, from which the parameters
+d20, p17 and p18 are read. d20 corresponds to big DELTA. p17 is the gradient rise time and p18
+the length of time at which the gradient is constant.</td></tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D spectrum from the main window into the
+fitting routine.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed as the parameter values
+are put into the plot as white text. The resulting plot can be rather ugly as sometimes the
+text is right on top of the fitted spectrum.</td></tr>
+
+<tr><td>Redisplay no.</td><td>Defines after how many iterations the plot must be redrawn. Set this
+to a high value to save time.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Sigma</td><td>Measure for the noise in the data. When properly defined the error should become
+a true chi^2.</td></tr>
+
+<tr><td>Ext. Output</td><td>Flag for whether an extended output should be given. A detailed error
+analysis is presented. <b>NOTE: the basic fitting routine has not been programmed by me and
+I have never checked the accuracy of the error analysis!</b></td></tr>
+
+<tr><td>SIMPLEX prefit</td><td>Flag for whether the fit should use a SIMPLEX algorithm before
+the gradient algorithm. This reduces the common problem that the gradient algorithm doesn't find
+a proper minimum when the parameters are too far off.</td></tr>
+
+<tr><td>Amplitude</td><td>Overall amplitude that scales the fit.</td></tr>
+
+<tr><td>Constant</td><td>A constant.</td></tr>
+
+<tr><td>Coefficient</td><td>Amplitude factor for the exponential fraction.</td></tr>
+
+<tr><td>D</td><td>Diffusion constant for the exponential fraction.</td></tr>
+
+</table>
+
+
+
+<a name="DiffusionFitMenubar"></a><h3>
+5.5.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QDiffFitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.5.1, <a href="MainWindow.html#DiffusionFitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QDiffFitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically. Please see paragraph 5.5.1, 
+<a href="MainWindow.html#DiffusionFitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+<a name="PeakFit"></a><h2>
+5.6 Peak Deconvolution (mixed Gaussian/Lorentzian lineshapes)</h2>
+
+<a name="PeakFitLook"></a><h3>
+5.6.1 General appearance</h3>
+
+<p>MatNMR offers a basic peak-fitting routine from both "1D Processing" and "2D Processing"
+entries in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/PeakFitter.jpg" ALT="peak fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#PeakFitFunctions">paragraph 5.6.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#PeakFitMenubar">
+paragraph 5.6.3</a> below.</p>
+<p>To fit peaks one first has to make an initial guess for the peak parameters for all peaks that
+need to be fitted. This can be done in two ways: 1) typing the peak center, its amplitude and width and
+the fraction of Lorentzian contribution to the Voigt lineshape by hand into the corresponding
+UI-controls in the window or 2) by using the "Cursor" button. This latter function is described in 
+paragraph 5.6.2 below. In any case the routine will think that a peak is a peak if there is a
+value written into the "peak width" button. Note that the peak parameters are given in the unit of the
+axis vector belonging to the current 1D spectrum. This means that the axis vector has to be defined
+before starting the peak-fitting routine! A total of 36 peaks can be fitted simultaneouly (for more
+UI-controls press the "More Peaks" button). In case the baseline is slightly distorted a baseline
+offset and linear slope may be included in the fit. In case the baseline is strongly distorted it is advised to
+first perform a baseline correction.</p>
+<p>After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kep constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+<p>When the fit has finished the results are written into the variable QFitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kepped in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+- fit parameters :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- for each peak:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Center of peak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Amplitude of peak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Width of peak<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Fraction of Lorentzian contribution to the Voigt lineshape<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- background<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- slope<br><br>
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", Integrals, "Data", "Axis" and "Error".<br>
+In case of a 2D being fitted, the structure variable is an array of structures of the same layout.
+
+
+</p>
+<p>There is a distinct difference between starting the peak-fitting routine from the "1D Processing"
+or from the "2D Processing" entry in the menubar: the 1D version will only take the current 1D
+spectrum or row/column from the 2D into the peak-fitting routine. The 2D version will take the
+whole 2D in which allows fitting a series of 1D spectra automatically.
+</p>
+<p>Last, as peak fitting can be quite time consuming it is important to reduce the number of points in
+the spectrum. Therefore be sure to zoom into the region of interest properly before starting the 
+peak-fitting routine. The peak-fitting routine takes the current zoom limits into account when
+reading the spectrum into the routine. A further reduction in time can be made by reducing the
+screen output. This can be done by selecting a lower refresh rate using the "redisplay no."
+button.</p>
+
+
+
+<a name="PeakFitFunctions"></a><h3>
+5.6.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Min / Max</td><td>Specify the range of spectra from the current 2D (i.e. series of 1D) spectrum
+that need to be fitted. Numbers can be entered by hand or by clicking the "-" and "+" buttons.
+Only defined for 2D spectra.</td></tr>
+
+<tr><td>View</td><td>Specifies which row/column of the current 2D (i.e. series of 1D) spectrum
+must be plotted in the figure window. Select a row/column that allows defining the peaks easily. The
+fit will still start at the row/column as defined by the "Min" button. Only defined for 2D spectra.</td></tr>
+
+<tr><td>Noise level</td><td>May be used to obtain a proper chi^2. Define a signal-free range in the
+spectrum (preferably without a baseline distortion!) by clicking left and right of the range in the
+plot. The standard deviation of the use will be used to normalize the chi^2.</td></tr>
+
+<tr><td>Zoom</td><td>Allows zooming into the plot which can be useful for defining the peaks. This
+uses the standard MATLAB <i>zoom</i> routine.</td></tr>
+
+<tr><td>Ext. Output</td><td>Flag for whether an extended output should be given. A detailed error
+analysis is presented. <b>NOTE: the basic peak-fitting routine has not been programmed by me and
+I have never checked the accuracy of the error analysis!</b></td></tr>
+
+<tr><td>Re-use pars.</td><td>Flag whether to start each fit of a 2D spectrum with the same
+initial parameters. If not selected each new row/column will start with the parameters from the
+last row/column.</td></tr>
+
+<tr><td>More peaks</td><td>Opens an additional window with UI-controls for defining peaks. Up to
+24 peaks can be fitted simultaneously.</td></tr>
+
+<tr><td>Cursor</td><td>Allows defining the peaks using the mouse. Before starting be sure to
+select the proper radio button (with the diamond in it) belonging to the parameter that needs
+to be defined. The peak center and amplitudes are defined by a single mouse click (left button).
+The peak width at half height is defined by two further mouse clicks, one left and one right of the
+peak center. After a parameter is defined the next radio button is activated. Should another
+parameter be changed just change the radio button (it is not necessary to stop the "cursor" routine
+for this!). When all parameters have been defined properly the routine must be stopped by clicking
+outside the axis or by using the right or middle mouse button.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed except the parameter buttons.
+The resulting plot can be rather ugly as the UI-controls don't print nicely.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D or 2D spectrum from the main window into the
+peak-fitting routine. Note that this function only checks the current dimension QmatNMR.Dim for
+determining whether to upload a 1D or 2D spectrum. It does not check whether the previous fitting
+mode was 1D or 2D. In case only the current row/column of the current 2D spectrum in the main
+window must be uploaded, use the "Peak fitting" entry from the "1D Processing" menu in the main
+window.</td></tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Redisplay no.</td><td>Defines after how many iterations the plot must be redrawn. Set this
+to a high value to save time.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Backgrnd</td><td>Background offset level that is included in the fit.</td></tr>
+
+<tr><td>Slope</td><td>Linear slope in the background that is included in the fit.</td></tr>
+
+<tr><td>Xpos</td><td>Center of a peak in the unit of the axis vector.</td></tr>
+
+<tr><td>Ampl</td><td>Amplitude of a peak.</td></tr>
+
+<tr><td>Width</td><td>Full width at half height (FWHH) of a peak in the unit of the axis vector.</td></tr>
+
+<tr><td>Frac. Lor.</td><td>Amount of Lorentzian contribution to the Voigt lineshape ranging from
+0 to 1.</td></tr>
+
+</table>
+
+
+
+<a name="PeakFitMenubar"></a><h3>
+5.6.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QFitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.6.1, <a href="MainWindow.html#PeakFitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QFitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically. Please see paragraph 5.6.1, 
+<a href="MainWindow.html#PeakFitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+<a name="QuadFit"></a><h2>
+5.7 Fitting of half-integer quadrupolar tensors from MAS spectra</h2>
+
+<a name="QuadFitLook"></a><h3>
+5.7.1 General appearance</h3>
+
+<p>MatNMR offers a fitting routine for quadrupolar tensors from MAS spectra which can be
+accessed from the "1D Processing" entry in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/QuadFitter.jpg" ALT="Quad fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#QuadFitFunctions">paragraph 5.7.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#QuadFitMenubar">
+paragraph 5.7.3</a> below.</p>
+
+<p>Upon starting the routine the current 1D spectrum (main window) is taken and plotted. It is assumed
+that the unit of the axis has been set to ppm.</p>
+
+<p>To fit the isotropic shift, the Cq and and asymmetry eta, the carrier frequency and the spin quantum 
+number are required. The routine then performs a powder averaging of an analytical expression of the
+frequency of a crystallite, assuming an infinite MAS spinning frequency. After adding linebroadening,
+either Lorentizian or Gaussian (for heterogeneous broadening), and multiplication by an intensity
+factor the simulation is ready. Note that the simulation is a frequency-space simulation with a fixed resolution.
+Up to 4 lines can be fit simultaneously.</p>
+
+<p>As holds for all non-linear fits a good initial estimate of the parameters is required for an efficient
+fit convergence. To facilitate finding such an estimate the "Simulate" button may be used.
+After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kept constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+
+<p>Two algorithms may be used for fitting: SIMPLEX and a gradient algorithm. Typically the SIMPLEX
+algorithm is used for coarse optimization and is followed by a gradient minimization to finish off the
+analysis. The quality of the simulation of the sideband manifold can be determined for both algorithms
+separately. By choosing a higher number of powder-averaging angles the quality of the simulation will
+improve. By default 610 powder-averaging angles are selected for SIMPLEX and none for the gradient algorithm.
+Increasing the number of averaging points will improve the accuracy of the analysis.</p>
+
+<p>Two algorithms may be used for fitting: SIMPLEX and a gradient algorithm. Typically the SIMPLEX
+algorithm is used for coarse optimization and is followed by a gradient minimization to finish off the
+analysis.</p>
+
+<p>When the fit has finished by default the results are written into the variable QQuadFitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kept in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;- for each site in the spectrum:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- sigma_iso<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Cq<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- eta<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Gaussian LB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Lorentzian LB<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Intensity<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- background<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- slope<br><br>
+
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", "AxisFit", "Data", "AxisData" and "Error".<br>
+Note that the simulated spectrum has a different axis than the experimental spectrum! </p>
+
+
+
+<a name="QuadFitFunctions"></a><h3>
+5.7.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+
+<tr><td>Zoom</td><td>Switches the zoom function on or off.</td></tr>
+
+<tr><td>Verbose</td><td>Determines the level of output generated by the fitting algorithms. This can
+either be never, after every iteration or only after finishing the fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Update display</td><td>Defines whether the plot should be updated after each iteration or
+only after the fit has finished.</td></tr>
+
+<tr><td>Noise level</td><td>In order for the calculated error to be a chi^2 the standard deviation
+of the noise must be entered here. This can be taken from the 1D spectrum. A proper value for the
+noise level should ideally result in an error of 1 for a perfect fit, i.e. the residual is nothing
+more than the standard deviation of the noise then.</td></tr>
+
+<tr><td>SIMPLEX quality</td><td>Number of powder-averaging points for the SIMPLEX algorithm. A two-angle
+ZCW grid is used during the simulation. Selecting "OFF" will result in the algorithm not being used.
+Increase this value for a more accurate result.</td></tr>
+
+<tr><td>Gradient quality</td><td>Number of powder-averaging points for the gradient algorithm. A two-angle
+ZCW grid is used during the simulation. Selecting "OFF" will result in the algorithm not being used.
+Increase this value for a more accurate result.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed as the parameter values
+are put into the plot as white text. The resulting plot can be rather ugly as sometimes the
+text is right on top of the fitted spectrum.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D spectrum from the main window into the
+fitting routine.</td></tr>
+
+<tr><td>Simulate</td><td>Performs a simulation of a sideband manifold based on the parameters given in the
+UIcontrols. This allows finding a good initial estimate of the parameters, which is vital for any
+non-linear fitting algorithm.</td></tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Quantum NR</td><td>A quantum number must be provided. This is not a fit parameter.</td></tr>
+
+<tr><td>Carrier</td><td>The carrier frequency for the spectrum must be provided, although this is usually
+imported from the main window when loading the spectrum into the fitting routine. This is not a fit parameter.</td></tr>
+
+<tr><td>Background</td><td>A constant baseline offset can be fitted to the spectrum.</td></tr>
+
+<tr><td>Slope</td><td>A linearly-sloping baseline offset can be fitted to the spectrum.</td></tr>
+
+<tr><td>Sigma_iso</td><td>The isotropic chemical shift for each site. Typically, a good initial estimate of
+this parameter is the left (downfield) edge of the second-order quadrupolar pattern.</td></tr>
+
+<tr><td>Cq</td><td>The quadrupolar coupling constant for each site.</td></tr>
+
+<tr><td>eta</td><td>The asymmetry parameter for each site.</td></tr>
+
+<tr><td>Gaussian LB</td><td>Degree of Gausiaan linebroadening (typically indicative of heterogeneous
+broadening).</td></tr>
+
+<tr><td>Lorentzian LB</td><td>Degree of Lorentzian linebroadening.</td></tr>
+
+<tr><td>Intensity</td><td>The intensity is merely a scaling factor.</td></tr>
+
+</table>
+
+
+
+<a name="QuadFitMenubar"></a><h3>
+5.7.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QQuadFitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.7.1, <a href="MainWindow.html#QuadFitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QQuadFitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically. Please see paragraph 5.7.1, 
+<a href="MainWindow.html#QuadFitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<a name="T1Fit"></a><h2>
+5.8 Relaxation curve fitting</h2>
+
+<a name="T1FitLook"></a><h3>
+5.8.1 General appearance</h3>
+
+<p>MatNMR offers a basic multi-exponential fitting routine from the "1D Processing"
+entry in the menubar. The following figure window will appear:<br></p>
+<center><IMG SRC="../pics/T1Fitter.jpg" ALT="T1 fit"></center>
+<p>The routine can be operated using the UI-controls in the figure window. The functions of these
+will be explained in <a href="MainWindow.html#T1FitFunctions">paragraph 5.8.2</a> just below. 
+The auxilary functions in the menubar are described in <a href="MainWindow.html#T1FitMenubar">
+paragraph 5.8.3</a> below.</p>
+<p>Upon starting the routine the current 1D spectrum (main window) is taken and plotted. For a more
+convenient view on exponentials the vertical axis is plotted on a logarithmic scale. This can easily 
+be changed using the "scaling types" item in the "plot manipulations" menu on the menubar.</p>
+<p>To fit a (multi-)exponential curve one first has to make an initial guess for all exponential
+functions that need to be fitted to it. This can be done by typing the coefficient and the time 
+constant (T1) for each fraction by hand into the corresponding UI-controls in the window. Also
+the overall amplitude and a constant may be defined. The routine will include a fraction into the fit
+if a coefficient value is specified. Note that all parameters are given in the unit of the
+axis vector belonging to the current 1D spectrum. This means that the axis vector has to be defined
+before starting the peak-fitting routine! A total of 4 exponentials can be fitted simultaneouly.</p>
+<p>After having defined the initial guesses the fit can be started with the "Fit" button. Should a
+parameter not be fitted but kep constant at its current value, then this can be done by selecting the
+check button (with the square block in it) belonging to the parameter.</p>
+<p>When the fit has finished by default the results are written into the variable QT1FitResults which
+can be read out by hand by the user (Note that this variable will be deleted when matNMR is stopped!
+This means it must be renamed, if it has to be kepped in the workspace for later use, before stopping
+matNMR). Alternatively, from the "View Fit Results" entry in the menubar a new name for putting the 
+results in can be defined. To be able to access this variable the user must make the variable global
+by typing "global VariableName" at the MATLAB prompt. A message is written to make sure the user
+doesn't forget this.<br>
+The format of the parameters is as follows:<br><br>
+- nr of iterations<br>
+- chi2 for this column<br>
+- fit parameters :<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- for each exponential:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Coefficient<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- Time constant (T1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- constant<br>
+&nbsp;&nbsp;&nbsp;&nbsp;- amplitude<br><br>
+All these numbers are put in a single row. This variable is combined with the original data, the
+axis to the data, the fitted spectrum and the error value into a structure variable. The fields in
+this variable are "Parameters", "Fit", "Data", "Axis" and "Error".</p>
+<p>Last, in case the initial parameters are very far off the "Simplex prefit" check button
+may be activated. This makes matNMR use a SIMPLEX algorithm first before the gradient
+algorithm. By default this option is active.</p>
+
+
+
+<a name="T1FitFunctions"></a><h3>
+5.8.2 Buttons</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Fit</td><td>Starts the fit.</td></tr>
+
+<tr><td>Refresh</td><td>Uploads the current 1D spectrum from the main window into the
+T1-fitting routine.</td></tr>
+
+<tr><td>Close</td><td>Closes the figure window. No variables are deleted so they can always
+be accessed afterwards.</td></tr>
+
+<tr><td>Print</td><td>Prints the current figure window to the the default printer as defined in the
+$matlabroot/toolbox/local/printopt.m file. No UI-controls are printed as the parameter values
+are put into the plot as white text. The resulting plot can be rather ugly as sometimes the
+text is right on top of the fitted spectrum.</td></tr>
+
+<tr><td>Redisplay no.</td><td>Defines after how many iterations the plot must be redrawn. Set this
+to a high value to save time.</td></tr>
+
+<tr><td>Max. Nr. Iter.</td><td>Maximum number of iterations for each fit.</td></tr>
+
+<tr><td>Tolerance</td><td>Termination tolerance for the fit.</td></tr>
+
+<tr><td>Sigma</td><td>Measure for the noise in the data. When properly defined the error should become
+a true chi^2.</td></tr>
+
+<tr><td>Ext. Output</td><td>Flag for whether an extended output should be given. A detailed error
+analysis is presented. <b>NOTE: the basic fitting routine has not been programmed by me and
+I have never checked the accuracy of the error analysis!</b></td></tr>
+
+<tr><td>SIMPLEX prefit</td><td>Flag for whether the fit should use a SIMPLEX algorithm before
+the gradient algorithm. This reduces the common problem that the gradient algorithm doesn't find
+a proper minimum when the parameters are too far off.</td></tr>
+
+<tr><td>Amplitude</td><td>Overall amplitude that scales the fit.</td></tr>
+
+<tr><td>Constant</td><td>A constant.</td></tr>
+
+<tr><td>Coefficient</td><td>Amplitude factor for the exponential fraction.</td></tr>
+
+<tr><td>T1</td><td>Time constant for the exponential fraction.</td></tr>
+
+</table>
+
+
+
+<a name="T1FitMenubar"></a><h3>
+5.8.3 Menubar</h3>
+
+<p>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Load parameters</td><td>Loads a variable, with the same format as the QT1FitResults, from the 
+workspace and puts its values into the UI-controls. Please see paragraph 5.8.1, <a href="MainWindow.html#T1FitLook">
+"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>View fit results</td><td>Takes a variable from the workspace, with the same format as the
+QT1FitResults, and outputs the fitting results to the MATLAB command window. Furthermore, the parameters
+are written into the UIcontrols in the window and the data and fit are shown graphically. Please see paragraph 5.8.1, 
+<a href="MainWindow.html#T1FitLook">"General Appearance"</a> for more information on the format.</td></tr>
+
+<tr><td>Plot manipulations</td><td>This menu allows changing of various axis properties.
+More explanation concerning these can be found in the MATLAB documentation. Note the difference
+between changing plot properties using this menu and by changing the properties using the
+options menu (see also paragraph 2.2, <a href="Installation.html#Setup">"Setting up matNMR"</a>):
+changes made with these functions only affect the current plot and not the general matNMR
+settings.</td></tr>
+
+<tr><td>Create Output</td>
+<td>
+<p><table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+
+<tr><td>Printing Menu</td>
+<td>
+<p>The printing menu is a general feature available from all matNMR windows that is used for printing.
+Using a separate window the MATLAB <i>print</i> command (see the MATLAB documentation for more information
+on print) can be executed. More information on the printing menu is given in paragraph 7.1, 
+<a href="matNMROutput.html#PrintingMenu">"Printing menu"</a>.</p>
+</td></tr>
+
+<tr><td>Save figure to disk</td>
+<td>
+<p>This function will store the current window as a binary figure on disk as an executable m-file. This will 
+allow the user to recall the exact figure by retyping the name of the m-file on the command line. This uses
+the Matlab mfig data format. See the Matlab manual for more information on the "saveas" command</p>
+</td></tr>
+
+<tr><td>Copy figure</td>
+<td>
+<p>This function will copy the current view of the main window into a separate window, but without
+the UI-controls. This will give something like:</p><br><br>
+<center><IMG SRC="../pics/CopyFigureMain.jpg" ALT="copy figure"></center>
+<p><br>The menubar of this new window contains the standard MATLAB menubar which has some useful
+features for printing and saving the figure. It also offers the possibility to change axis properties
+and stuff (More information on this menubar can be found in the MATLAB documentation). Additional
+features in the menubar are the MATLAB zoom and rotate3D functions, the matNMR "Get Position" (for more
+information see paragraph 5.1, <a href="MainWindow.html#Look">"General appearance"</a>) and the 
+printing menu (for more information see paragraph 7.1, <a href="matNMROutput.html#PrintingMenu">
+"Printing menu"</a>).</p>
+</td></tr>
+</table></p>
+</td></tr>
+
+<tr><td>Macro</td><td>
+<table border=yes align=center>
+<tr>
+<th>Name</th>
+<th>Function</th>
+</tr>
+<tr><td>Start recording macro</td><td>Starts the recording of a new macro. An input will appear to ask
+whether only processing, only plotting or all actions must be stored in the macro. Recording continues
+until the stop command is given (see below). Note that for user-commands, i.e. commands that are usually
+executed from the MATLAB command line, to be put into the macro the "execute user-command" function
+(see below) must be used! (see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr>
+<td>Stop recording macro</td>
+<td>Stop the recording of a macro. An input window
+will appear to ask for a name of a variable in the workspace to store the new macro in.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td>
+</tr>
+
+<tr><td>Execute macro</td><td>This routine executes a macro.
+(see also paragraph 4.4, <a href="Processing.html#Macros">"Using macro's"</a>)</td></tr>
+
+<tr><td>Execute macro stepwise</td><td>This routine executes a macro stepwise. The same
+window as used for "Reprocess from history stepwise" (see above) will appear .</td></tr>
+</table>
+</td></tr>
+
+<tr><td>Help?</td><td>Besides the simple "About matNMR" and "Copyright" notices this contains a direct link to
+this manual from inside MATLAB. The browser, defined in the $matlabroot/toolbox/local/docopt.m
+file, will be opened and the matNMR manual will appear (See the MATLAB documentation for more
+information on the MATLAB web and docopt commands). As the manual is included in the matNMR
+distribution reading the manual should be faster than using the matNMR website.</td></tr>
+
+<tr><td>Clear functions</td><td>This performs the MATLAB "clear functions" command. All compiled functions are deleted from
+memory forcing MATLAB to recompile each function again upon running it. This is useful when working
+with your own m-files (or changing the matNMR code) to force MATLAB to use the altered function (See 
+the MATLAB documentation for more information on the MATLAB clear command). Furthermore the mouse 
+pointer is set to an arrow head.</td></tr>
+
+</table>
+
+
+
+
+
+
+
+
+<p>
+      <a href="http://validator.w3.org/check?uri=referer"><img border="0"
+          src="http://www.w3.org/Icons/valid-html401"
+          alt="Valid HTML 4.01!" height="31" width="88"></a>
+</p>
+
+</body>
+</html>
