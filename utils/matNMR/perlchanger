@@ -1,7 +1,0 @@
-#!/usr/bin/perl
-open(FFFF, $ARGV[0]); 	#open the input file
-while (<FFFF>) {
-s/QReadParameterFilesFlag/QmatNMR\.ReadParameterFilesFlag/g;		#substitute all Qs
-
-print "$_"; 		#send all text to STDOUT
-}

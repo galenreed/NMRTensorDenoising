@@ -1,6 +1,0 @@
-#!/bin/tcsh
-
-foreach file (*.m)
-  perlchanger $file >! ../new2/$file
-end
-cp ../new2/*.m .
