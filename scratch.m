@@ -11,15 +11,26 @@ specPoints = dataSize(1);
 timePoints = dataSize(2);
 channels = dataSize(3);
 
+% run through all the matrix and do FFTs
 specs = zeros(size(data));
 for ii = 1:channels
   for jj = 1:timePoints
     fid = squeeze(data(:,jj,ii));
     spec = fftshift(fft(fftshift(fid)));
-    specs(:,jj,ii) = spec;    
+    specs(:,jj,ii) = (spec);    
   end
 end
 
+
+testspec = specs(:,1,1);
+phi0 = phaseCorrectSpectra(testspec);
+phased = testspec * exp(-1i * phi0 * pi / 180);
+plot(real(phased))
+
+
+
+
+#{
 [U,S,sv] = mlsvd(specs);
 
 figure();
@@ -38,8 +49,6 @@ Utrunc{3} = U{3}(:, 1:sizeLR(3));
 Strunc = S(1:sizeLR(1), 1:sizeLR(2), 1:sizeLR(3));
 specsLR = lmlragen(Utrunc, Strunc);
 
-
-% now compare with non thresholded case
 denoised = sum(specsLR,3);
 denoised = sum(denoised,2);
 regular = sum(specs,3);
@@ -50,6 +59,6 @@ subplot(1,2,1)
 plot(real(regular))
 subplot(1,2,2)
 plot(real(denoised))
-
+#}
 
 

@@ -1,22 +1,19 @@
-function [newSpec] = phaseCorrectSpectra(spec)
+function [phi0] = phaseCorrectSpectra(spec)
   
-max_val = max(abs(spec));  
+max_val = max(spec);  
 max_x = find(spec == max_val);
-max_y = spec(max_x);
-
 entropy_min = ACMEentropy_fun([0,0], spec(max_x), max_x);
 theta = 0;
-for psi=1:360
+for psi = 1:360
     entropy_value = ACMEentropy_fun([psi,0], spec(max_x), max_x);
-    disp("entropy_value ="); disp(entropy_value);
+    %disp("entropy_value ="); disp(entropy_value);
     if(entropy_value < entropy_min)
         entropy_min = entropy_value;
         theta = psi;
     end    
 end 
 
-theta
-newSpec = spec  * exp(- 1i * theta * pi / 180);
+phi0 = theta;
 
 
 
