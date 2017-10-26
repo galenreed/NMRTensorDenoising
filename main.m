@@ -8,7 +8,7 @@ phaseSensitive = false;
 % set to false for applying same phase correction to all timepoints from a single coil
 phaseCorrectTimePoints = true;
 
-infile = 'spectra1.mat';
+infile = 'data/spectra1.mat';
 load(infile);
 dataSize = size(data);
 specPoints = dataSize(1);
