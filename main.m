@@ -1,8 +1,8 @@
 clear all;
 close all;
 addpath('utils');
-addpath('utils/matNMR');
-addpath('utils/tensorlab');
+addpath('bin/matNMR');
+addpath('bin/tensorlab');
 
 phaseSensitive = false;
 % set to false for applying same phase correction to all timepoints from a single coil
