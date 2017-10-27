@@ -1,6 +1,6 @@
 clear all;
 close all;
-addpath('utils');
+addpath('bin');
 addpath('bin/matNMR');
 addpath('bin/tensorlab');
 
