@@ -7,7 +7,7 @@ function baseline = estimateBaseline(spectrum, mask)
   
 % smoothing parameter
 lambda = 1e1;
-doPlot = true;  
+doPlot = false;  
   
 % must be made a column vector explicitly in octave, probably doesnt matter in matlab
 if(size(spectrum,1) == 1)
@@ -25,9 +25,9 @@ N = length(spectrum);
 diagVector = ones([1 N]);
 D = diff(diag(diagVector));% operate diff on identity matrix to get D matrix rep
 W = diag(maskInv);
+
+% there is probably a more efficient way to perform this calc using sparse coding 
 matrixMultiplier = inv(W + lambda * D' * D) * W;
-
-
 baseline = matrixMultiplier * spectrum;
 
 if(doPlot)

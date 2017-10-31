@@ -6,7 +6,9 @@ addpath('bin/tensorlab');
 
 phaseSensitive = false;
 % set to false for applying same phase correction to all timepoints from a single coil
-phaseCorrectTimePoints = true;
+phaseCorrectTimePoints = false;
+baselineCorrect = true;
+
 
 infile = 'data/spectra1.mat';
 load(infile);
@@ -21,14 +23,26 @@ for ii = 1:channels
   for jj = 1:timePoints
     fid = squeeze(data(:,jj,ii));
     spec = fftshift(fft(fftshift(fid)));
-    specs(:,jj,ii) = spec; 
+    
+    if(~phaseSensitive)
+      spec = abs(spec);% makes life a lot easier
+    end 
+    
+    if(baselineCorrect)
+      specs(:,jj,ii) = spectraBaselineCorrection(spec);  
+    else
+      specs(:,jj,ii) = spec;  
+    end
+
+    
   end
 end
 
+
 phaseCorrectedSpectra =  zeros(size(specs));
 if(~phaseSensitive)
-  phaseCorrectedSpectra = abs(specs);% makes life a lot easier
-else 
+  phaseCorrectedSpectra = specs;
+else
   disp("performing coil-wise phase correction");
 
   % here we take the highest signal spec from a single channel, estimate its phase
@@ -68,7 +82,7 @@ end
 
 
 
-sizeLR = [5, 3, 3];
+sizeLR = [3, 4, 4];
 Utrunc{1} = U{1}(:, 1:sizeLR(1));
 Utrunc{2} = U{2}(:, 1:sizeLR(2));
 Utrunc{3} = U{3}(:, 1:sizeLR(3));
