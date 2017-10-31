@@ -1,15 +1,20 @@
 function mask = peakDetect(spectrum)
-  %
-  % the following performs the Dietrich Method for peak detection
-  %
-  
+  ##
+  ## peakDetect performs the Dietrich Method for peak detection
+  ## inputs: spectrum, the soectrum data (frequency domain)
+  ## return: mask, the a vector with ones where peaks are detected, zeroes elsewhere
   
   % this method as-is underestimates the threshold
   % this multiples the threshold at the end
   thesholdScaleFactor = 5;
   
-  dSpectrum = diff(spectrum); % derivative
-  dSpectrum = dSpectrum .* conj(dSpectrum); % power spectrum  
+  doPlot = false;
+  
+  % derivative the starting point of this method is the power spectrum of the derivative
+  dSpectrum = diff(spectrum); 
+  dSpectrum = dSpectrum .* conj(dSpectrum); 
+  
+  
   thresh = mean(dSpectrum) + 3 * std(dSpectrum);
   numElementsBelowThresh = length(find(dSpectrum < thresh));
   previousNumElementsBelow = numElementsBelowThresh;
@@ -25,19 +30,20 @@ function mask = peakDetect(spectrum)
     else
       threshTest = +1;
     end
-    disp([num2str(numElementsBelowThresh) 'below thresh']);
+    %disp([num2str(numElementsBelowThresh) 'below thresh']);
   end
   
   mask = zeros(size(dSpectrum));
-  mask(find(dSpectrum > 10*thresh)) = max(abs(spectrum));
+  mask(find(dSpectrum > thesholdScaleFactor*thresh)) = 1;  
+  mask = [mask; 0]; % make the same size as spec since diff reduces it
   
+  if(doPlot)
+    figure()
+    hold on;
+    plot(spectrum);
+    plot(mask,'.-')
   
-  
-  figure()
-  hold on;
-  plot(spectrum);
-  plot(mask,'.-')
-  
-  figure()
-  semilogy(dSpectrum);
+    figure()
+    semilogy(dSpectrum);
+  end
 end  
