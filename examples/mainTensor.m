@@ -3,6 +3,7 @@ close all;
 pkg load image;
 
 addpath('../bin');
+addpath('../bin/tensorlab');
 
 
 slices = 109;
@@ -29,47 +30,50 @@ imgvolnoisy = imgvol + abs(noise);
 
 
 
-[ dimg,U,S,V,newimg] = casoratiSVD3D( imgvolnoisy, 40);
+[U,S,sv] = mlsvd(imgvolnoisy);
+
+figure();
+for ii = 1:3
+  y = sv{ii};
+  subplot(1,3,ii);
+  semilogy(y);
+end
 
 
 
-figure()
-semilogy(diag(S))
+sizeLR = [170, 170, 90];
+Utrunc{1} = U{1}(:, 1:sizeLR(1));
+Utrunc{2} = U{2}(:, 1:sizeLR(2));
+Utrunc{3} = U{3}(:, 1:sizeLR(3));
+Strunc = S(1:sizeLR(1), 1:sizeLR(2), 1:sizeLR(3));
+imglr = lmlragen(Utrunc, Strunc);
+
+
 
 figure()
 sl = 60;
 graylims = [1000, peakpixel/1.5];
-subplot(1,3,1);
+subplot(1,3,1)
 testim = imgvol(:,:,sl)';
 testim = imresize(testim, [1000 1000]);
 imagesc(testim,graylims);
-colormap('gray');
 set(gca,'xtick',[]);
 set(gca,'ytick',[]);
+colormap('gray')
 
 subplot(1,3,2)
 testim = imgvolnoisy(:,:,sl)';
 testim = imresize(testim, [1000 1000]);
 imagesc(testim,graylims);
-colormap('gray');
 set(gca,'xtick',[]);
 set(gca,'ytick',[]);
+colormap('gray')
 
 subplot(1,3,3)
-testim = dimg(:,:,sl)';
+testim = imglr(:,:,sl)';
 testim = imresize(testim, [1000 1000]);
-imagesc(testim,graylims)
-colormap('gray');
+imagesc(testim,graylims);
 set(gca,'xtick',[]);
 set(gca,'ytick',[]);
+colormap('gray')
 
-
-%testSlice = 60;
-%testIm =imgVol(:,:,testSlice)';
-%[u,s,v] = svd(testIm);
-%figure()
-%imagesc(testIm)
-%colormap('gray')
-
-%figure()
-%semilogy(diag(s))

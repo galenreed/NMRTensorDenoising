@@ -31,24 +31,31 @@ end
 
 
 
-sizeLR = [3, 4, 4];
+sizeLR = [5, 4, 6];
 Utrunc{1} = U{1}(:, 1:sizeLR(1));
 Utrunc{2} = U{2}(:, 1:sizeLR(2));
 Utrunc{3} = U{3}(:, 1:sizeLR(3));
 Strunc = S(1:sizeLR(1), 1:sizeLR(2), 1:sizeLR(3));
 specsLR = lmlragen(Utrunc, Strunc);
 
-denoised = sum(specsLR,3);
-denoised = sum(denoised,2);
-regular = sum(phaseCorrectedSpectra,3);
-regular = sum(regular,2);
+% sum over coils and time points
+denoisedSummedCoils = sum(specsLR,3);
+denoisedSummedTime = sum(denoisedSummedCoils,2);
+
+originalSummedCoils = sum(abs(spectra),3);
+originalSummedTime = sum(originalSummedCoils,2);
 
 figure();
 subplot(1,2,1)
-plot(real(regular))
+plot(real(originalSummedTime))
 subplot(1,2,2)
-plot(real(denoised))
+plot(real(denoisedSummedTime))
 
+figure()
+subplot(1,2,1)
+surf(originalSummedCoils)
+subplot(1,2,2)
+surf(denoisedSummedCoils)
 
 
 
