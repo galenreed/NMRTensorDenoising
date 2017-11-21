@@ -1,0 +1,3 @@
+[submodule "bin/baselineCorrect"]
+	path = bin/baselineCorrect
+	url = https://github.com/galenreed/WhittakerSmootherBaseline.git
