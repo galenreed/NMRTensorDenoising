@@ -16,16 +16,15 @@ function [processedSpectra] = phaseAndBaselineCorrect(spectra, params)
         % phase correct each time point individually
         for jj = 1:params.timePoints
           singleSpectra = TFSpectraSingleCoil(:, jj);
-          phi0 = phaseCorrectSpectra(singleSpectra);
-          phaseCorrectedSpectra(:, jj, ii) =  ...
-            singleSpectra * exp(-1i * pi * phi0 / 180);
+          [correctedSpectra, phi0] = phaseCorrect(singleSpectra, params);
+          phaseCorrectedSpectra(:, jj, ii) = correctedSpectra;
         end 
       else
         % apply one phase to all time point from one channel
         % this phase is measured from the highest signal time point
         peakTimePoint = find(max(max(abs(TFSpectraSingleCoil))));% 
         highestSNRSpec = TFSpectraSingleCoil(:, peakTimePoint);
-        phi0 = phaseCorrectSpectra(highestSNRSpec);
+        [correctedSpectra, phi0] = phaseCorrect(highestSNRSpec, params);
         TFSpectraSingleCoil = ...
           TFSpectraSingleCoil * exp(-1i * pi * phi0 / 180);
         phaseCorrectedSpectra(:, :, ii) = TFSpectraSingleCoil;

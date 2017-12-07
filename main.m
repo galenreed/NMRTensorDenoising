@@ -1,7 +1,7 @@
 clear all;
 close all;
 addpath('bin');
-addpath('bin/matNMR');
+addpath('bin/phaseCorrect');
 addpath('bin/tensorlab');
 addpath('bin/baselineCorrect');
 
@@ -9,8 +9,15 @@ infile = 'data/spectra1.mat';
 load(infile);
 dataSize = size(data);
 
-params.phaseSensitive = false;
+% options for phase correction search (if used)
+bruteForce = 0;
+simplexZeroOrder = 1;
+simplexZeroAndFirstOrder = 2;
+
+params.phaseSensitive = true;
 params.phaseCorrectTimePoints = false; 
+params.nonNegativePenalty = true;
+params.searchMethod = simplexZeroOrder;
 params.baselineCorrect = false;
 params.specPoints = dataSize(1);
 params.timePoints = dataSize(2);
@@ -53,9 +60,9 @@ plot(real(denoisedSummedTime))
 
 figure()
 subplot(1,2,1)
-surf(originalSummedCoils)
+surf(real(originalSummedCoils))
 subplot(1,2,2)
-surf(denoisedSummedCoils)
+surf(real(denoisedSummedCoils))
 
 
 
