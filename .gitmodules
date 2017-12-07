@@ -1,3 +1,6 @@
 [submodule "bin/baselineCorrect"]
 	path = bin/baselineCorrect
 	url = https://github.com/galenreed/WhittakerSmootherBaseline.git
+[submodule "bin/phaseCorrect"]
+	path = bin/phaseCorrect
+	url = https://github.com/galenreed/MinimumEntropyAutoPhase.git
