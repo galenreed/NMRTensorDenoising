@@ -1,64 +1,88 @@
 clear all;
 close all;
-addpath('bin');
-addpath('bin/matNMR');
-addpath('bin/tensorlab');
-addpath('bin/baselineCorrect');
-
-infile = 'data/spectra1.mat';
-load(infile);
-dataSize = size(data);
-
-params.phaseSensitive = false;
-params.phaseCorrectTimePoints = false; 
-params.baselineCorrect = false;
-params.specPoints = dataSize(1);
-params.timePoints = dataSize(2);
-params.channels = dataSize(3);
-
-spectra = applyFFTs(data, params);
-phaseCorrectedSpectra = phaseAndBaselineCorrect(spectra, params);
+addpath('../../bin');
+addpath('../../bin/phaseCorrect');
+%addpath('../../bin/tensorlab');
+%addpath('../../bin/baselineCorrect');
+addpath('phillipsFileIO');
 
 
-[U,S,sv] = mlsvd(phaseCorrectedSpectra);
+% options for phase correction search (if used)
+bruteForce = 0;
+simplexZeroOrder = 1;
+simplexZeroAndFirstOrder = 2;
+params.nonNegativePenalty = true;
+params.searchMethod = simplexZeroOrder;
 
-figure();
-for ii = 1:3
-  y = sv{ii};
-  subplot(1,3,ii);
-  semilogy(y);
+
+f1 = '7T1501_WIP_afterT1_dyn1_9_1_raw_act';
+f2 = '7T1501_WIP_afterT2_dyn5_10_1_raw_act';
+f3 = '7T1501_WIP_afterT3_dyn5_11_1_raw_act';
+         
+data1 = mrs_readSDAT(f1);
+hdr1 = mrs_readSPAR(f1);
+data2 = mrs_readSDAT(f2);
+hdr2 = mrs_readSPAR(f2);
+data3 = mrs_readSDAT(f3);
+hdr3 = mrs_readSPAR(f3);
+
+
+data = [data1 data2 data3];
+DATA = zeros(size(data));
+nt = size(data,2);
+
+for ii = 1:nt
+  spec = data(:,ii);
+  SPEC = fftc(spec);
+  DATA(:,ii) = SPEC;
 end
 
+n = 1;
+[U, S, V] = svd(DATA,'econ');
+denoised = DATA * V(:,1:n)*V(:,1:n)';
 
+p1 = abs(DATA * V(:,1)*V(:,1)');
+p2 = abs(DATA * V(:,2)*V(:,2)');
+p3 = abs(DATA * V(:,3)*V(:,3)');
+p4 = abs(DATA * V(:,4)*V(:,4)');
 
-sizeLR = [5, 4, 6];
-Utrunc{1} = U{1}(:, 1:sizeLR(1));
-Utrunc{2} = U{2}(:, 1:sizeLR(2));
-Utrunc{3} = U{3}(:, 1:sizeLR(3));
-Strunc = S(1:sizeLR(1), 1:sizeLR(2), 1:sizeLR(3));
-specsLR = lmlragen(Utrunc, Strunc);
+d1 = abs(DATA);
+d2 = abs(denoised);
 
-% sum over coils and time points
-denoisedSummedCoils = sum(specsLR,3);
-denoisedSummedTime = sum(denoisedSummedCoils,2);
+tp = 1;
+figure();
+subplot(1,2,1)
+%plot(d1(:,tp))
+plot(sum(d1,2))
+title('original, averaged');
+subplot(1,2,2)
+plot(d2(:,tp))
+title('rank 1 approximation');
 
-originalSummedCoils = sum(abs(spectra),3);
-originalSummedTime = sum(originalSummedCoils,2);
 
 figure();
 subplot(1,2,1)
-plot(real(originalSummedTime))
+%plot(d1(:,tp))
+plot(d1(:,tp))
+title('original');
 subplot(1,2,2)
-plot(real(denoisedSummedTime))
+plot(d2(:,tp))
+title('rank 1 approximation');
+
 
 figure()
 subplot(1,2,1)
-surf(originalSummedCoils)
+waterfall(d1)
+title('original');
 subplot(1,2,2)
-surf(denoisedSummedCoils)
+waterfall(d2)
+title('rank 1 approximation');
+
+figure();
+semilogy(diag(S))
+title('singular vals');
 
 
 
-  
 
-
+ 
