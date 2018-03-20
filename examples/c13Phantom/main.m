@@ -21,11 +21,12 @@ for ii = 1:npe
 end
 
 spec = fftnc(sortedData);
-spec = circshift(spec,round(npe/2), 2);
+spec = circshift(spec, [0 round(npe/2)]);
 
 % optional noising step
+addedNoiseAmplitude = 0;
 spec = spec + ...
-  .001 *  max(max(max(abs(spec)))) * ...
+  addedNoiseAmplitude *  max(max(max(abs(spec)))) * ...
   (randn(size(spec)) + 1i * randn(size(spec)));
   
 
