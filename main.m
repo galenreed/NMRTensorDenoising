@@ -14,7 +14,7 @@ bruteForce = 0;
 simplexZeroOrder = 1;
 simplexZeroAndFirstOrder = 2;
 
-params.phaseSensitive = true;
+params.phaseSensitive = false;
 params.phaseCorrectTimePoints = false; 
 params.nonNegativePenalty = true;
 params.searchMethod = simplexZeroOrder;
