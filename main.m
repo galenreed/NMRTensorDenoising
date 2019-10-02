@@ -1,33 +1,36 @@
 clear all;
 close all;
 addpath('bin');
-addpath('bin/phaseCorrect');
-addpath('bin/tensorlab');
-addpath('bin/baselineCorrect');
+addpath('tensorlab');
 
-infile = 'data/spectra1.mat';
-load(infile);
+infile = 'data/fov10_46by46';
+npe = 46;
+specpts = 256;
+
+[data header] = rawloadX(infile);
 dataSize = size(data);
 
-% options for phase correction search (if used)
-bruteForce = 0;
-simplexZeroOrder = 1;
-simplexZeroAndFirstOrder = 2;
+sortedData = zeros([npe npe specpts]);
 
-params.phaseSensitive = false;
-params.phaseCorrectTimePoints = false; 
-params.nonNegativePenalty = true;
-params.searchMethod = simplexZeroOrder;
-params.baselineCorrect = false;
-params.specPoints = dataSize(1);
-params.timePoints = dataSize(2);
-params.channels = dataSize(3);
+for ii = 1:npe
+  for jj = 1:npe
+    ind = jj + (ii-1)*npe;
+    sortedData(ii,jj,:) = squeeze(data(:,ind));
+    
+  end
+end
 
-spectra = applyFFTs(data, params);
-phaseCorrectedSpectra = phaseAndBaselineCorrect(spectra, params);
+spec = fftnc(sortedData);
+spec = circshift(spec, [0 round(npe/2)]);
 
+% optional noising step
+addedNoiseAmplitude = 0;
+spec = spec + ...
+  addedNoiseAmplitude *  max(max(max(abs(spec)))) * ...
+  (randn(size(spec)) + 1i * randn(size(spec)));
+  
 
-[U,S,sv] = mlsvd(phaseCorrectedSpectra);
+[U,S,sv] = mlsvd(spec);
 
 figure();
 for ii = 1:3
@@ -37,35 +40,58 @@ for ii = 1:3
 end
 
 
-
-sizeLR = [5, 4, 6];
+sizeLR = [10, 10, 5];
 Utrunc{1} = U{1}(:, 1:sizeLR(1));
 Utrunc{2} = U{2}(:, 1:sizeLR(2));
 Utrunc{3} = U{3}(:, 1:sizeLR(3));
 Strunc = S(1:sizeLR(1), 1:sizeLR(2), 1:sizeLR(3));
-specsLR = lmlragen(Utrunc, Strunc);
+imglr = lmlragen(Utrunc, Strunc);
 
-% sum over coils and time points
-denoisedSummedCoils = sum(specsLR,3);
-denoisedSummedTime = sum(denoisedSummedCoils,2);
 
-originalSummedCoils = sum(abs(spectra),3);
-originalSummedTime = sum(originalSummedCoils,2);
 
-figure();
-subplot(1,2,1)
-plot(real(originalSummedTime))
-subplot(1,2,2)
-plot(real(denoisedSummedTime))
 
+
+p1i = 58:68;
+p2i = 80:89;
+p3i = 98:107;
+p4i = 120:143;
+
+
+im = sum(abs(spec),3);
+imlr = sum(abs(imglr),3);
 figure()
 subplot(1,2,1)
-surf(real(originalSummedCoils))
+imagesc(im)
 subplot(1,2,2)
-surf(real(denoisedSummedCoils))
+imagesc(imlr)
 
 
+p1 = sum(abs(spec(:,:,p1i)),3);
+p2 = sum(abs(spec(:,:,p2i)),3);
+p3 = sum(abs(spec(:,:,p3i)),3);
+p4 = sum(abs(spec(:,:,p4i)),3);
+figure()
+subplot(2,2,1)
+imagesc(p1)
+subplot(2,2,2)
+imagesc(p2)
+subplot(2,2,3)
+imagesc(p3)
+subplot(2,2,4)
+imagesc(p4)
 
-  
 
+p1lr = sum(abs(imglr(:,:,p1i)),3);
+p2lr = sum(abs(imglr(:,:,p2i)),3);
+p3lr = sum(abs(imglr(:,:,p3i)),3);
+p4lr = sum(abs(imglr(:,:,p4i)),3);
+figure()
+subplot(2,2,1)
+imagesc(p1lr)
+subplot(2,2,2)
+imagesc(p2lr)
+subplot(2,2,3)
+imagesc(p3lr)
+subplot(2,2,4)
+imagesc(p4lr)
 
